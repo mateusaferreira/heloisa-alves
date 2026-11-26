@@ -2,9 +2,10 @@
   const $=selector=>document.querySelector(selector);
   const dialog=$('#offer-dialog'),form=$('#offer-form'),kind=$('#offer-kind');
   const kindDialog=$('#offer-kind-dialog'),kindPicker=$('#offer-kind-picker');
-  const amount=$('#offer-amount'),swap=$('#offer-swap'),finance=$('#offer-finance'),error=$('#offer-error');
+  const amount=$('#offer-amount'),swap=$('#offer-swap'),other=$('#offer-other'),finance=$('#offer-finance'),error=$('#offer-error');
   const choices=[...document.querySelectorAll('[data-offer-kind]')];
-  const labels={money:'Proposta em dinheiro',mixed:'Dinheiro + permuta',swap:'Somente permuta'};
+  const labels={money:'Proposta em dinheiro',mixed:'Dinheiro + permuta',swap:'Somente permuta',other:'Outro'};
+  const syncModalLock=()=>document.body.classList.toggle('modal-open',dialog.open||kindDialog.open);
   const number=new Intl.NumberFormat('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
   let destination=(window.SITE_CONFIG?.whatsapp||'').replace(/\D/g,'');
   if(destination.length===10||destination.length===11)destination='55'+destination;
@@ -31,27 +32,29 @@
     amount.setSelectionRange(next,next);
   }
   function update(){
-    const hasMoney=kind.value!=='swap',hasSwap=kind.value!=='money';
+    const hasMoney=kind.value==='money'||kind.value==='mixed',hasSwap=kind.value==='mixed'||kind.value==='swap',hasOther=kind.value==='other';
     $('#offer-amount-field').hidden=!hasMoney;amount.disabled=!hasMoney;amount.required=hasMoney;
     $('#offer-swap-field').hidden=!hasSwap;swap.disabled=!hasSwap;swap.required=hasSwap;
+    $('#offer-other-field').hidden=!hasOther;other.disabled=!hasOther;other.required=hasOther;
     $('#offer-finance-field').hidden=!hasMoney;finance.disabled=!hasMoney;
-    $('#offer-amount-label').textContent=hasSwap?'Quanto você oferece em dinheiro?':'Quanto você quer oferecer?';
-    $('#offer-amount-help').textContent=hasSwap?'Informe só a parte em dinheiro, além da permuta.':'';
-    $('#offer-amount-help').hidden=!hasSwap;
+    $('#offer-amount-label').textContent=kind.value==='mixed'?'Quanto você oferece em dinheiro?':'Quanto você quer oferecer?';
+    $('#offer-amount-help').textContent=kind.value==='mixed'?'Informe só a parte em dinheiro, além da permuta.':'';
+    $('#offer-amount-help').hidden=kind.value!=='mixed';
     $('#offer-kind-current').textContent=labels[kind.value];
     choices.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.offerKind===kind.value)));
     const value=readAmount();
     amount.setCustomValidity(hasMoney&&amount.value.trim()&&(!Number.isFinite(value)||value<=0||value>99999999999.99)?'Informe um valor válido em reais, maior que zero. Ex.: 1.000.000,00.':'');
     swap.setCustomValidity(hasSwap&&swap.value&&!swap.value.trim()?'Descreva o bem que você pretende oferecer na permuta.':'');
-    $('#offer-message').value=window.PropertyMessages.offer({kind:kind.value,amount:value,swap:swap.value,finance:finance.checked});
+    other.setCustomValidity(hasOther&&other.value&&!other.value.trim()?'Descreva como seria a sua proposta.':'');
+    $('#offer-message').value=window.PropertyMessages.offer({kind:kind.value,amount:value,swap:swap.value,other:other.value,finance:finance.checked});
   }
-  document.querySelectorAll('#open-offer,[data-open-offer]').forEach(button=>{button.onclick=()=>{update();error.hidden=true;dialog.showModal();document.body.classList.add('modal-open')}});
+  document.querySelectorAll('#open-offer,[data-open-offer]').forEach(button=>{button.onclick=()=>{update();error.hidden=true;kindDialog.showModal();kindPicker.setAttribute('aria-expanded','true');syncModalLock()}});
   $('#close-offer').onclick=()=>dialog.close();
-  dialog.addEventListener('close',()=>{if(kindDialog.open)kindDialog.close();document.body.classList.remove('modal-open')});
-  kindPicker.onclick=()=>{kindDialog.showModal();kindPicker.setAttribute('aria-expanded','true')};
+  dialog.addEventListener('close',()=>{if(kindDialog.open)kindDialog.close();syncModalLock()});
+  kindPicker.onclick=()=>{kindDialog.showModal();kindPicker.setAttribute('aria-expanded','true');syncModalLock()};
   $('#close-offer-kind').onclick=()=>kindDialog.close();
-  kindDialog.addEventListener('close',()=>kindPicker.setAttribute('aria-expanded','false'));
-  choices.forEach(button=>button.onclick=()=>{kind.value=button.dataset.offerKind;update();kindDialog.close()});
+  kindDialog.addEventListener('close',()=>{kindPicker.setAttribute('aria-expanded','false');syncModalLock()});
+  choices.forEach(button=>button.onclick=()=>{kind.value=button.dataset.offerKind;update();kindDialog.close();if(!dialog.open)dialog.showModal();syncModalLock()});
   [dialog,kindDialog].forEach(modal=>modal.addEventListener('click',event=>{if(event.target!==modal)return;const r=modal.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)modal.close()}));
   amount.addEventListener('input',maskAmount);form.addEventListener('input',update);
   amount.addEventListener('blur',()=>{const value=readAmount();if(Number.isFinite(value)&&value>0&&value<=99999999999.99){amount.value=number.format(value);update()}});
