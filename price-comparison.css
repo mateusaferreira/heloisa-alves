@@ -1,0 +1,11 @@
+.listing-layout .contact-card.price-comparison{background:#fff;border:1px solid #eaebee;box-shadow:0 8px 28px #20242b08}
+.price-comparison .price-property{margin:0 0 18px;font-size:14px;font-weight:650;letter-spacing:.12em;line-height:1.5;text-transform:uppercase}
+.price-comparison .market-savings{display:inline-flex;max-width:100%;margin:0 0 23px;padding:9px 13px;border-radius:999px;background:var(--green);color:#fff;font-size:14px;font-weight:650;line-height:1.4}
+.price-comparison .market-reference{display:flex;flex-direction:column;gap:3px;margin:0 0 14px;color:var(--muted);font-size:14px;line-height:1.5}
+.price-comparison .market-reference strong{font-size:21px;font-weight:400;letter-spacing:-.025em}
+.listing-layout .price-comparison .price{margin:0 0 14px;font-family:'Playfair Display',Georgia,serif;font-size:36px;font-weight:400;letter-spacing:-.04em;line-height:1.25}
+.price-comparison .market-percentage{display:inline-flex;max-width:100%;margin:0 0 23px;padding:7px 12px;border-radius:13px;background:#e9f6ee;color:#106c3f;font-size:14px;font-weight:600;line-height:1.4}
+.listing-layout .price-comparison .cost-note{margin:0;padding-top:18px;border-top:1px solid var(--line);font-size:14px;line-height:1.5}
+.listing-layout .price-comparison .contact-actions{display:flex;margin-top:22px}
+.price-comparison .offer-entry{padding:0;margin-top:12px;border:0}
+@media(max-width:370px){.listing-layout .price-comparison .price{font-size:33px}.price-comparison .market-savings{padding-inline:12px;font-size:13px}.price-comparison .market-percentage{font-size:13px}}
