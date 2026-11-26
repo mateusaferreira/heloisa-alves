@@ -1,0 +1,76 @@
+:root{--ui-font:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif}
+.listing-layout{font-family:var(--ui-font);background:#f5f5f7;border-radius:24px;padding:30px;gap:24px 32px}
+.listing-layout h1{font-size:36px;font-weight:700;letter-spacing:-.035em;line-height:1.15}
+.listing-layout h2{font-size:23px;font-weight:650;letter-spacing:-.025em}
+.listing-layout .specs{gap:0;padding:20px 8px;border:0;border-radius:20px;background:#fff;box-shadow:0 1px 3px #151a2305}
+.listing-layout .specs>div{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;min-width:0;min-height:79px;padding:0 8px;border:0;border-radius:0;background:none;text-align:center}
+.listing-layout .specs>div+div{border-left:1px solid #ececf0}
+.listing-layout .specs p{gap:0;align-items:center}
+.listing-layout .specs strong{font-size:22px;font-weight:650;line-height:1.15}
+.listing-layout .specs>div p>span{display:block;margin-top:5px;font-size:13px;line-height:1.3;color:#6e737a}
+.listing-layout .specs>div:nth-child(2) p>span{display:block}
+.listing-layout .feature-icon{width:26px;height:26px;color:#535960}
+.listing-layout .contact-card{padding:25px;background:#fff;border:0;border-radius:22px;box-shadow:0 1px 4px #151a2306}
+.listing-layout .contact-card .cost-note{max-width:none;font-size:14px;margin-bottom:0}
+.listing-layout .contact-actions{margin-top:22px}
+.listing-layout .property-content>section{margin:0 0 20px;padding:24px;background:#fff;border:0;border-radius:20px;box-shadow:0 1px 4px #151a2305}
+.listing-layout .property-content>section:last-child{margin-bottom:0}
+.listing-layout .about>p{margin-bottom:0;line-height:1.65}
+.listing-layout .property-features .amenity-list{gap:13px 20px}
+.listing-layout .button{font-family:var(--ui-font);border-radius:15px}
+.listing-layout .opportunities-card h2{font-size:23px}
+.mobile-actions{font-family:var(--ui-font)}
+.mobile-actions .button{border-radius:17px;min-height:52px;font-size:15px;font-weight:600}
+.mobile-actions .make-offer{animation:contact-appear .4s ease .08s both}
+#offer-dialog,#offer-kind-dialog{font-family:var(--ui-font)}
+#offer-dialog .offer-kind-trigger,#offer-dialog .offer-field input,#offer-dialog .offer-field textarea{font-family:var(--ui-font);border-radius:12px}
+#offer-dialog .asking-price{border-radius:15px}
+#offer-dialog .offer-submit{border-radius:14px}
+#offer-kind-dialog{border-radius:24px;padding:28px;background:#fff}
+#offer-kind-dialog>.close-button{width:44px;height:44px;background:#f1f2f4;color:#596168}
+#offer-kind-dialog h2{font-size:24px;font-weight:650;letter-spacing:-.025em;line-height:1.25;margin-right:48px}
+.sheet-grabber{display:none}
+.offer-kind-options{gap:0;border:1px solid #e3e5e8;border-radius:18px;overflow:hidden}
+.offer-kind-options>button{gap:13px;min-height:90px;padding:16px;border:0;border-radius:0;box-shadow:none;background:#fff;transform:none}
+.offer-kind-options>button+button{border-top:1px solid #e8e9ed}
+.offer-kind-options>button:hover{background:#f7f8fa;transform:none}
+.offer-kind-options>button[aria-pressed=true]{background:#f4f8f5;border-color:#e8e9ed}
+.offer-kind-options>button:focus-visible{outline:2px solid var(--green);outline-offset:-3px}
+.offer-kind-options>button>span:not(.choice-indicator){flex:1;min-width:0;order:1}
+.offer-choice-icon{order:0;width:26px;height:26px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;color:#40464d}
+.offer-kind-options .choice-indicator{order:2;width:23px;height:23px;flex-shrink:0;margin-left:auto;border:1.5px solid #bcc2c8;background:#fff}
+.offer-kind-options>button[aria-pressed=true] .choice-indicator{background:var(--green);border-color:var(--green)}
+.offer-kind-options>button[aria-pressed=true] .choice-indicator:after{width:6px;height:11px;border:solid #fff;border-width:0 2px 2px 0;border-radius:0;background:none;transform:translateY(-1px) rotate(45deg)}
+.offer-kind-options strong{font-size:16px;font-weight:600;line-height:1.3}
+.offer-kind-options small{font-size:14px;line-height:1.4;margin-top:5px}
+#lightbox{font-family:var(--ui-font);background:#000}
+#lightbox .lightbox-top,#lightbox .gallery-stage,#lightbox .gallery-bottom{background:#000}
+#lightbox .lightbox-top strong{font-weight:600;letter-spacing:-.025em}
+#lightbox #photo-counter{background:#202024;color:#e5e5eb;border-radius:20px;padding:6px 10px;font-variant-numeric:tabular-nums}
+#lightbox .lightbox-top .close-button{background:#242426;border-radius:50%;border:0}
+#lightbox .lightbox-top .close-button:hover{background:#343438}
+#lightbox .thumbnails{scroll-snap-type:x proximity}
+#lightbox .thumbnails>button{border-radius:8px;scroll-snap-align:center}
+#lightbox .gallery-bottom>#photo-title{font-size:15px;font-weight:500}
+@media(max-width:760px){
+  .listing-layout{margin-inline:-16px;padding:24px 16px 32px;border-radius:0;gap:20px}
+  .listing-layout h1{font-size:34px;margin-bottom:11px}
+  .listing-layout .address{margin-bottom:21px}
+  .listing-layout .contact-card{padding:24px;border-radius:22px}
+  .listing-layout .property-content>section{padding:22px 20px;border-radius:20px}
+  .listing-layout .property-content h2{font-size:22px}
+  .listing-layout .contact-actions{display:none}
+  #offer-kind-dialog{inset:auto 0 0;margin:0;width:100%;max-width:100%;max-height:calc(100dvh - 16px);padding:34px 20px max(24px,env(safe-area-inset-bottom));border-radius:28px 28px 0 0;overflow:auto;box-shadow:0 -12px 60px #111b2933}
+  #offer-kind-dialog[open]{animation:offer-sheet-in .24s cubic-bezier(.2,.8,.2,1)}
+  #offer-kind-dialog>.close-button{top:22px;right:16px}
+  #offer-kind-dialog h2{font-size:23px;margin:0 48px 10px 0}
+  #offer-kind-dialog>p{font-size:15px;margin-bottom:22px}
+  .sheet-grabber{display:flex;position:absolute;inset:0 0 auto;align-items:flex-start;justify-content:center;height:29px;padding-top:10px;touch-action:none;cursor:grab}
+  .sheet-grabber>span{width:38px;height:5px;border-radius:5px;background:#c4c7cd;pointer-events:none}
+  .offer-kind-options>button{min-height:92px;padding:16px 14px;gap:12px}
+  .offer-kind-options small{font-size:14px}
+}
+@media(max-width:370px){.listing-layout h1{font-size:31px}.listing-layout .contact-card{padding:21px}.listing-layout .specs strong{font-size:20px}.listing-layout .specs>div{padding-inline:5px}.listing-layout .specs span{font-size:12px}.mobile-actions .button{font-size:14px}.offer-kind-options>button{gap:10px;padding:15px 12px}.offer-choice-icon{width:23px;height:23px}.offer-kind-options strong{font-size:15px}.offer-kind-options small{font-size:13px}}
+@media(max-height:480px) and (max-width:760px){#offer-kind-dialog{padding-top:30px}#offer-kind-dialog h2{font-size:21px;margin-bottom:7px}#offer-kind-dialog>p{margin-bottom:12px}.offer-kind-options>button{min-height:75px;padding-block:12px}.offer-kind-options small{font-size:13px}}
+@keyframes offer-sheet-in{from{opacity:.65;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){#offer-kind-dialog[open],.mobile-actions .make-offer{animation:none}}
