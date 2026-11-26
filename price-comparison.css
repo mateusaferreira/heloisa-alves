@@ -3,6 +3,7 @@
 .price-comparison .market-savings{display:inline-flex;max-width:100%;margin:0 0 23px;padding:9px 13px;border-radius:999px;background:var(--green);color:#fff;font-size:14px;font-weight:650;line-height:1.4}
 .price-comparison .market-reference{display:flex;flex-direction:column;gap:3px;margin:0 0 14px;color:var(--muted);font-size:14px;line-height:1.5}
 .price-comparison .market-reference strong{font-size:21px;font-weight:400;letter-spacing:-.025em}
+.price-comparison .property-price-label{margin:0 0 5px;color:var(--muted);font-size:14px;line-height:1.5}
 .listing-layout .price-comparison .price{margin:0 0 14px;font-family:'Playfair Display',Georgia,serif;font-size:36px;font-weight:400;letter-spacing:-.04em;line-height:1.25}
 .price-comparison .market-percentage{display:inline-flex;max-width:100%;margin:0 0 23px;padding:7px 12px;border-radius:13px;background:#e9f6ee;color:#106c3f;font-size:14px;font-weight:600;line-height:1.4}
 .listing-layout .price-comparison .cost-note{margin:0;padding-top:18px;border-top:1px solid var(--line);font-size:14px;line-height:1.5}
