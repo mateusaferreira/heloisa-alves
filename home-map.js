@@ -5,6 +5,8 @@
   const catalog=new Map((window.PROPERTY_CATALOG||[]).map(p=>[p.id,p]));
   const propertyId=document.body.dataset.propertyId,propertyMode=Boolean(propertyId),entryButton=document.querySelector('[data-open-property-map]');
   const allIds=propertyMode?[propertyId,...catalog.keys()].filter((id,index,ids)=>locations.has(id)&&ids.indexOf(id)===index):[];
+  const filterModel=window.PropertyFilters;let propertyArea=null;
+  const propertyResults=()=>allIds.filter(id=>{const place=locations.get(id);return (!filterModel||filterModel.matches(catalog.get(id)))&&(!propertyArea||propertyArea.contains([place.lat,place.lng]));});
   const cards=[...document.querySelectorAll('[data-home-property]')];
   const selection=document.querySelector('#map-selection'),areaButton=document.querySelector('#map-search-area'),allButton=document.querySelector('#map-show-all'),state=document.querySelector('#map-status');
   const number=new Intl.NumberFormat('pt-BR'),money=value=>'R$ '+number.format(value);
@@ -16,7 +18,7 @@
   const fullscreen=document.createElement('dialog');fullscreen.className='home-map-dialog'+(propertyMode?' property-map-dialog':'');fullscreen.setAttribute('aria-label','Buscar imóveis no mapa');document.body.append(fullscreen);
   const backButton=document.createElement('button');backButton.type='button';backButton.className='map-back-to-list';backButton.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg><span>'+(propertyMode?'Voltar ao imóvel':'Voltar para a lista')+'</span>';panel.prepend(backButton);
   function mapFitOptions(maxZoom){
-    return fullscreen.open?{paddingTopLeft:[45,120],paddingBottomRight:[45,(selection.hidden?0:selection.offsetHeight)+65],maxZoom,animate:false}:{paddingTopLeft:[55,45],paddingBottomRight:[55,45],maxZoom,animate:false};
+    return fullscreen.open?{paddingTopLeft:[45,mobile.matches?180:120],paddingBottomRight:[45,(selection.hidden?0:selection.offsetHeight)+65],maxZoom,animate:false}:{paddingTopLeft:[55,45],paddingBottomRight:[55,45],maxZoom,animate:false};
   }
   function syncFullscreen(){
     if(active&&(mobile.matches||propertyMode)){
@@ -33,11 +35,12 @@
     if(map&&active){blocked=true;map.invalidateSize({pan:false});blocked=false;render(true);}
   }
   function returnToList(){const useBack=fullscreen.open&&history.state?.homeMapFullscreen;setView('list');(propertyMode?entryButton:document.querySelector('[data-home-view="map"]'))?.focus({preventScroll:true});if(useBack)history.back();}
+  function closeChildFilters(){document.querySelector('.map-filters-dialog[open]')?.close();}
   backButton.onclick=returnToList;
   fullscreen.addEventListener('cancel',event=>{event.preventDefault();returnToList();});
   fullscreen.addEventListener('close',()=>{if(active&&(mobile.matches||propertyMode)&&!fullscreen.open)returnToList();});
   fullscreen.addEventListener('click',event=>{const link=event.target.closest('.map-property-card');if(propertyMode&&link&&new URL(link.href).pathname===location.pathname&&!event.ctrlKey&&!event.metaKey&&!event.shiftKey&&!event.altKey){event.preventDefault();returnToList();}});
-  window.addEventListener('popstate',()=>{if(history.state?.homeMapFullscreen&&(mobile.matches||propertyMode)){if(!active)setView('map');}else if(fullscreen.open)setView('list');});
+  window.addEventListener('popstate',()=>{closeChildFilters();if(history.state?.homeMapFullscreen&&(mobile.matches||propertyMode)){if(!active)setView('map');}else if(fullscreen.open)setView('list');});
   mobile.addEventListener('change',syncFullscreen);
   function loadLibrary(){
     if(window.L)return Promise.resolve();
@@ -166,16 +169,19 @@
     }catch{loadPromise=null;state.hidden=false;state.textContent='Não foi possível carregar o mapa. Continue pela Lista ou tente abrir Mapa novamente.';}
   }
   function setView(view){
+    if(view!=='map')closeChildFilters();
     active=view==='map';shell?.classList.toggle('has-map',active);panel.hidden=!active;if(!active&&popup)map?.closePopup(popup);
     for(const button of viewButtons)button.setAttribute('aria-pressed',String(button.dataset.homeView===view));
     syncFullscreen();
+    document.dispatchEvent(new CustomEvent('map:view-change',{detail:{active,propertyMode}}));
     if(active)ensureMap();
   }
-  for(const button of viewButtons)button.onclick=()=>{setView(button.dataset.homeView);if(active&&!mobile.matches)document.querySelector('.home-filter-row').scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});};
+  for(const button of viewButtons)button.onclick=()=>{setView(button.dataset.homeView);if(active&&!mobile.matches)(document.querySelector('.home-search-with-filters')||document.querySelector('.home-filter-row')).scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});};
   document.addEventListener('home:results',event=>{visibleIds=event.detail.ids;allButton.hidden=!event.detail.area;render(event.detail.resetView);});
-  areaButton.onclick=()=>{const b=map.getBounds();areaButton.hidden=true;if(propertyMode){visibleIds=allIds.filter(id=>{const place=locations.get(id);return b.contains([place.lat,place.lng]);});allButton.hidden=false;render(false);}else document.dispatchEvent(new CustomEvent('home:map-area',{detail:{south:b.getSouth(),north:b.getNorth(),west:b.getWest(),east:b.getEast()}}));};
-  allButton.onclick=()=>{if(propertyMode){visibleIds=[...allIds];allButton.hidden=true;render(true);}else document.dispatchEvent(new CustomEvent('home:map-area',{detail:null}));};
-  if(entryButton)entryButton.onclick=()=>{if(document.querySelector('dialog[open]'))return;visibleIds=[...allIds];selected=propertyId;allButton.hidden=true;setView('map');};
+  areaButton.onclick=()=>{const b=map.getBounds();areaButton.hidden=true;if(propertyMode){propertyArea=b;visibleIds=propertyResults();allButton.hidden=false;render(false);}else document.dispatchEvent(new CustomEvent('home:map-area',{detail:{south:b.getSouth(),north:b.getNorth(),west:b.getWest(),east:b.getEast()}}));};
+  allButton.onclick=()=>{if(propertyMode){propertyArea=null;visibleIds=propertyResults();allButton.hidden=true;render(true);}else document.dispatchEvent(new CustomEvent('home:map-area',{detail:null}));};
+  document.addEventListener('property:filters-changed',()=>{if(propertyMode){propertyArea=null;visibleIds=propertyResults();allButton.hidden=true;render(true);}});
+  if(entryButton)entryButton.onclick=()=>{if(document.querySelector('dialog[open]'))return;propertyArea=null;visibleIds=propertyResults();selected=propertyId;allButton.hidden=true;setView('map');};
   for(const card of cards){const id=card.querySelector('a').getAttribute('href').split('/').filter(Boolean).pop();const show=()=>{if(!active||!map||card.hidden)return;const group=groups.find(g=>g.ids.includes(id));if(group)selectProperty(id,group,true,'list');};card.addEventListener('mouseenter',show);card.addEventListener('focusin',show);}
   document.dispatchEvent(new CustomEvent('home:map-ready'));
 })();
