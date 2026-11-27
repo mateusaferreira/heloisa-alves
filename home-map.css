@@ -47,6 +47,10 @@ body.home-map-fullscreen .home-contact-actions{visibility:hidden}
 .home-map-dialog .map-property-card img{width:92px;height:117px;border-radius:13px;grid-row:span 2}
 .home-map-dialog .map-property-copy strong{font-size:18px}
 .home-map-dialog .map-property-copy>span{font-size:13px}
+.home-map-dialog .map-property-copy>.map-property-facts{display:flex;flex-wrap:wrap;align-items:center;gap:5px 9px;margin:3px 0 1px;font-size:11px;line-height:1.45;color:#59616a}
+.home-map-dialog .map-fact{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.home-map-dialog .map-fact svg{flex:0 0 14px;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.home-map-dialog .map-property-card img{height:100%;min-height:140px;max-height:185px}
 .home-map-dialog .map-property-copy b{font-size:26px}
 .home-map-dialog .map-property-open{grid-column:2;padding:10px;font-size:14px;text-align:center}
 .home-map-dialog .map-building-options{flex-wrap:nowrap;max-height:none;overflow:auto;margin-bottom:11px;padding:0 0 3px;scrollbar-width:thin;scrollbar-color:#c2d0c6 transparent}
