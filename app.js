@@ -6,7 +6,7 @@ $('#close-notice').onclick=$('#notice-ok').onclick=()=>notice.close();
 notice.addEventListener('click',e=>{if(e.target===notice){const r=notice.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)notice.close()}});
 let phone=(config.whatsapp||'').replace(/\D/g,'');
 if(phone.length===10||phone.length===11)phone='55'+phone;
-document.querySelectorAll('a.whatsapp').forEach(a=>{if(/^55\d{10,11}$/.test(phone)){a.href='https://wa.me/'+phone+'?text='+encodeURIComponent(window.PropertyMessages.inquiry());a.target='_blank';a.rel='noopener noreferrer'}else a.addEventListener('click',e=>{e.preventDefault();showNotice('Atendimento em breve','O contato de WhatsApp da Heloísa está sendo preparado. Volte em breve para conversar sobre este imóvel.')})});
+document.querySelectorAll('a.whatsapp').forEach(a=>{if(/^55\d{10,11}$/.test(phone)){a.href='https://wa.me/'+phone+'?text='+encodeURIComponent(window.PropertyMessages.inquiry());a.target='_blank';a.rel='noopener noreferrer'}else a.addEventListener('click',e=>{e.preventDefault();showNotice('Atendimento em breve','O atendimento pelo WhatsApp está sendo preparado. Volte em breve para conversar sobre este imóvel.')})});
 document.querySelectorAll('.group-link').forEach(a=>{if(/^https:\/\/chat\.whatsapp\.com\/[A-Za-z0-9]+(?:\?.*)?$/.test(config.groupUrl||'')){a.href=config.groupUrl;a.target='_blank';a.rel='noopener noreferrer'}else a.addEventListener('click',e=>{e.preventDefault();showNotice('Um convite para boas oportunidades','O grupo de oportunidades está sendo preparado. Em breve, o convite estará disponível aqui.')})});
 if(config.creci){document.querySelectorAll('#creci,[data-creci]').forEach(el=>{el.textContent='CRECI '+config.creci;el.hidden=false})}
 
