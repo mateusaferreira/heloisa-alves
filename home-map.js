@@ -109,7 +109,8 @@
       if(!popup)popup=L.popup({className:'property-map-popup',minWidth:230,maxWidth:320,autoPanPaddingTopLeft:[22,80],autoPanPaddingBottomRight:[22,30],closeButton:true});
       popup.setLatLng([place.lat,place.lng]).setContent(options+propertyCard(id)).openOn(map);
       const close=popup.getElement().querySelector('.leaflet-popup-close-button');if(close){close.setAttribute('aria-label','Fechar card do imóvel');close.title='Fechar card do imóvel';}
-      for(const button of popup.getElement().querySelectorAll('[data-map-property]'))button.onclick=()=>selectProperty(button.dataset.mapProperty,group);
+      // Stop the click before replacing its target; Leaflet would otherwise treat it as a map click and close the popup.
+      for(const button of popup.getElement().querySelectorAll('[data-map-property]'))button.onclick=event=>{event.stopPropagation();selectProperty(button.dataset.mapProperty,group);};
     }
     if(pan&&!map.getBounds().contains([place.lat,place.lng])){blocked=true;map.panTo([place.lat,place.lng],{animate:false});blocked=false;}
   }
