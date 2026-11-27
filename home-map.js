@@ -12,13 +12,13 @@
   const number=new Intl.NumberFormat('pt-BR'),money=value=>'R$ '+number.format(value);
   const short=value=>value>=1000000?'R$ '+(value/1000000).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+' mi':'R$ '+number.format(value/1000)+' mil';
   const escape=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('"','&quot;');
-  let map,layer,loadPromise,popup,active=false,blocked=false,selected=propertyMode?propertyId:null,visibleIds=[...allIds],markers=[],groups=[],currentGroup=null;
+  let map,layer,loadPromise,popup,zoomControl,active=false,blocked=false,selected=propertyMode?propertyId:null,visibleIds=[...allIds],markers=[],groups=[],currentGroup=null;
   const mobile=matchMedia('(max-width:760px)'),placeholder=document.createComment('home-map-position');
   panel.before(placeholder);
   const fullscreen=document.createElement('dialog');fullscreen.className='home-map-dialog'+(propertyMode?' property-map-dialog':'');fullscreen.setAttribute('aria-label','Buscar imóveis no mapa');document.body.append(fullscreen);
   const backButton=document.createElement('button');backButton.type='button';backButton.className='map-back-to-list';backButton.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg><span>'+(propertyMode?'Voltar ao imóvel':'Voltar para a lista')+'</span>';panel.prepend(backButton);
   function mapFitOptions(maxZoom){
-    return fullscreen.open?{paddingTopLeft:[45,mobile.matches?180:120],paddingBottomRight:[45,(selection.hidden?0:selection.offsetHeight)+65],maxZoom,animate:false}:{paddingTopLeft:[55,45],paddingBottomRight:[55,45],maxZoom,animate:false};
+    return fullscreen.open?{paddingTopLeft:[45,mobile.matches?130:120],paddingBottomRight:[45,(selection.hidden?0:selection.offsetHeight)+65],maxZoom,animate:false}:{paddingTopLeft:[55,45],paddingBottomRight:[55,45],maxZoom,animate:false};
   }
   function syncFullscreen(){
     if(active&&(mobile.matches||propertyMode)){
@@ -41,7 +41,7 @@
   fullscreen.addEventListener('close',()=>{if(active&&(mobile.matches||propertyMode)&&!fullscreen.open)returnToList();});
   fullscreen.addEventListener('click',event=>{const link=event.target.closest('.map-property-card');if(propertyMode&&link&&new URL(link.href).pathname===location.pathname&&!event.ctrlKey&&!event.metaKey&&!event.shiftKey&&!event.altKey){event.preventDefault();returnToList();}});
   window.addEventListener('popstate',()=>{closeChildFilters();if(history.state?.homeMapFullscreen&&(mobile.matches||propertyMode)){if(!active)setView('map');}else if(fullscreen.open)setView('list');});
-  mobile.addEventListener('change',syncFullscreen);
+  mobile.addEventListener('change',()=>{if(zoomControl){if(mobile.matches)zoomControl.remove();else zoomControl.addTo(map);}syncFullscreen();});
   function loadLibrary(){
     if(window.L)return Promise.resolve();
     if(!loadPromise)loadPromise=new Promise((resolve,reject)=>{const script=document.createElement('script');script.src='/vendor/leaflet/leaflet.js';script.onload=()=>window.L?resolve():reject();script.onerror=reject;document.head.append(script);});
@@ -158,7 +158,7 @@
       await loadLibrary();
       if(!active||map)return;
       map=L.map('property-map',{scrollWheelZoom:true,touchZoom:true,zoomControl:false,attributionControl:true}).setView([-23.339,-51.173],14);
-      L.control.zoom({position:'topright',zoomInTitle:'Aproximar mapa',zoomOutTitle:'Afastar mapa'}).addTo(map);
+      zoomControl=L.control.zoom({position:'topright',zoomInTitle:'Aproximar mapa',zoomOutTitle:'Afastar mapa'});if(!mobile.matches)zoomControl.addTo(map);
       layer=L.tileLayer(window.PROPERTY_MAP_TILES||'https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>'}).addTo(map);
       let loadedTile=false;layer.on('tileerror',()=>{if(!loadedTile){state.hidden=false;state.textContent='O mapa está indisponível no momento. Você pode continuar pela Lista.';}});
       layer.on('tileload',()=>{loadedTile=true;if(visibleIds.length)state.hidden=true;});

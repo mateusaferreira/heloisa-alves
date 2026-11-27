@@ -31,6 +31,8 @@ body.home-page .home-filters button[aria-pressed=true]:hover{background:var(--ac
 .video-progress::-webkit-slider-thumb{background:#e1e5e9;box-shadow:0 0 0 4px #ffffff18}
 .video-progress::-moz-range-thumb{background:#e1e5e9}
 .site-header-nav{display:none}
+body .mobile-actions .button.make-offer{background:#101112;border-color:#101112;color:#fff;box-shadow:0 4px 16px #10111226}
+body .mobile-actions .button.make-offer:hover{background:#242526;border-color:#242526;color:#fff}
 .about .about-highlights{padding-left:21px;margin:15px 0 22px;color:var(--muted);font-size:16px;line-height:1.7}
 .about .about-highlights li{padding-left:3px;margin:9px 0}
 .about .about-highlights strong{font-weight:600;color:var(--ink)}
