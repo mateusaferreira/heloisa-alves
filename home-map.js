@@ -9,6 +9,32 @@
   const short=value=>value>=1000000?'R$ '+(value/1000000).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+' mi':'R$ '+number.format(value/1000)+' mil';
   const escape=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('"','&quot;');
   let map,layer,loadPromise,active=false,blocked=false,selected=null,visibleIds=[],markers=[],groups=[],currentGroup=null;
+  const mobile=matchMedia('(max-width:760px)'),placeholder=document.createComment('home-map-position');
+  panel.before(placeholder);
+  const fullscreen=document.createElement('dialog');fullscreen.className='home-map-dialog';fullscreen.setAttribute('aria-label','Buscar imóveis no mapa');document.body.append(fullscreen);
+  const backButton=document.createElement('button');backButton.type='button';backButton.className='map-back-to-list';backButton.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg><span>Voltar para a lista</span>';panel.prepend(backButton);
+  function mapFitOptions(maxZoom){
+    return fullscreen.open?{paddingTopLeft:[45,120],paddingBottomRight:[45,(selection.hidden?0:selection.offsetHeight)+65],maxZoom,animate:false}:{paddingTopLeft:[55,45],paddingBottomRight:[55,45],maxZoom,animate:false};
+  }
+  function syncFullscreen(){
+    if(active&&mobile.matches){
+      if(!fullscreen.open){fullscreen.append(panel);document.body.classList.add('home-map-fullscreen');fullscreen.showModal();backButton.focus({preventScroll:true});
+        if(!history.state?.homeMapFullscreen)history.pushState({...history.state,homeMapFullscreen:true},'',location.href);
+      }
+    }else{
+      if(panel.parentNode===fullscreen)placeholder.after(panel);
+      if(fullscreen.open)fullscreen.close();
+      document.body.classList.remove('home-map-fullscreen');
+      if(!mobile.matches&&history.state?.homeMapFullscreen){const state={...history.state};delete state.homeMapFullscreen;history.replaceState(state,'',location.href);}
+    }
+    if(map&&active){blocked=true;map.invalidateSize({pan:false});blocked=false;render(true);}
+  }
+  function returnToList(){const useBack=fullscreen.open&&history.state?.homeMapFullscreen;setView('list');document.querySelector('[data-home-view="map"]').focus({preventScroll:true});if(useBack)history.back();}
+  backButton.onclick=returnToList;
+  fullscreen.addEventListener('cancel',event=>{event.preventDefault();returnToList();});
+  fullscreen.addEventListener('close',()=>{if(active&&mobile.matches&&!fullscreen.open)returnToList();});
+  window.addEventListener('popstate',()=>{if(history.state?.homeMapFullscreen&&mobile.matches){if(!active)setView('map');}else if(fullscreen.open)setView('list');});
+  mobile.addEventListener('change',syncFullscreen);
   function loadLibrary(){
     if(window.L)return Promise.resolve();
     if(!loadPromise)loadPromise=new Promise((resolve,reject)=>{const script=document.createElement('script');script.src='/vendor/leaflet/leaflet.js';script.onload=()=>window.L?resolve():reject();script.onerror=reject;document.head.append(script);});
@@ -42,12 +68,12 @@
       const p=catalog.get(group.ids[0]),multiple=group.ids.length>1;
       const icon=L.divIcon({className:'property-price-marker',html:`<button class="property-price-pin" type="button" aria-label="${escape(multiple?group.ids.length+' imóveis '+(group.sites>1?'nesta região':'no '+p.title)+', a partir de '+money(p.price):p.title+', '+money(p.price))}"><span>${short(p.price)}</span>${multiple?`<small>${group.ids.length}</small>`:''}</button>`,iconSize:[multiple?144:116,40],iconAnchor:[multiple?72:58,44]});
       const marker=L.marker([group.lat,group.lng],{icon,keyboard:false}).addTo(map);
-      marker.on('click',()=>{selectProperty(group.ids.includes(selected)?selected:group.ids[0],group);if(group.sites>1){blocked=true;map.fitBounds(group.ids.map(id=>{const p=locations.get(id);return[p.lat,p.lng];}),{padding:[65,65],maxZoom:17,animate:false});blocked=false;}});markers.push({marker,group});
+      marker.on('click',()=>{selectProperty(group.ids.includes(selected)?selected:group.ids[0],group);if(group.sites>1){blocked=true;map.fitBounds(group.ids.map(id=>{const p=locations.get(id);return[p.lat,p.lng];}),mapFitOptions(17));blocked=false;}});markers.push({marker,group});
     }
     const chosen=groups.find(g=>g.ids.includes(selected))||groups.find(g=>g.ids.includes('maison-giverny'))||groups[0];
     if(chosen)selectProperty(chosen.ids.includes(selected)?selected:chosen.ids[0],chosen);else{selection.hidden=true;selected=null;currentGroup=null;}
     state.hidden=groups.length>0;state.textContent=groups.length?'':'Nenhum imóvel nesta busca. Altere os filtros para ver outras opções.';
-    if(resetView&&groups.length){blocked=true;map.invalidateSize({pan:false});map.fitBounds(visibleIds.map(id=>locations.get(id)).filter(Boolean).map(p=>[p.lat,p.lng]),{paddingTopLeft:[55,45],paddingBottomRight:[55,45],maxZoom:16,animate:false});blocked=false;areaButton.hidden=true;}
+    if(resetView&&groups.length){blocked=true;map.invalidateSize({pan:false});map.fitBounds(visibleIds.map(id=>locations.get(id)).filter(Boolean).map(p=>[p.lat,p.lng]),mapFitOptions(16));blocked=false;areaButton.hidden=true;}
   }
   async function ensureMap(){
     if(map){map.invalidateSize({pan:false});return;}
@@ -68,9 +94,10 @@
   function setView(view){
     active=view==='map';shell.classList.toggle('has-map',active);panel.hidden=!active;
     for(const button of viewButtons)button.setAttribute('aria-pressed',String(button.dataset.homeView===view));
+    syncFullscreen();
     if(active)ensureMap();
   }
-  for(const button of viewButtons)button.onclick=()=>{setView(button.dataset.homeView);if(active)document.querySelector('.home-filter-row').scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});};
+  for(const button of viewButtons)button.onclick=()=>{setView(button.dataset.homeView);if(active&&!mobile.matches)document.querySelector('.home-filter-row').scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});};
   document.addEventListener('home:results',event=>{visibleIds=event.detail.ids;allButton.hidden=!event.detail.area;render(event.detail.resetView);});
   areaButton.onclick=()=>{const b=map.getBounds();areaButton.hidden=true;document.dispatchEvent(new CustomEvent('home:map-area',{detail:{south:b.getSouth(),north:b.getNorth(),west:b.getWest(),east:b.getEast()}}));};
   allButton.onclick=()=>document.dispatchEvent(new CustomEvent('home:map-area',{detail:null}));
