@@ -25,6 +25,8 @@ body.home-page .home-filters button[aria-pressed=true]:hover{background:var(--ac
 .home-map-dialog .map-back-to-list{color:var(--accent);border-color:#d8dde3}
 .home-map-dialog .map-back-to-list:hover{background:#f0f2f5}
 .map-card-counter{color:#59616b;border-color:#dfe3e7}
+.map-property-open{background:#101112;color:#fff;transition:background .2s}
+.map-property-card:hover .map-property-open,.map-property-card:focus-visible .map-property-open{background:#242526;color:#fff}
 .map-canvas-wrap .leaflet-control-zoom a,.map-canvas-wrap .leaflet-control-attribution a{color:var(--accent)}
 .video-progress::-webkit-slider-runnable-track{background:linear-gradient(to right,#c9cfd6 var(--progress),#ffffff58 var(--progress))}
 .video-progress::-moz-range-progress{background:#c9cfd6}
