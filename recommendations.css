@@ -5,6 +5,9 @@
 .recommendations-heading p{margin:0;color:var(--muted);font-size:16px;line-height:1.5}
 .recommendations-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;list-style:none;padding:0;margin:0}
 .recommendations-list>li{min-width:0}
+.recommendations-section .recommendations-list,#recommendations-dialog .recommendations-list{display:flex;gap:15px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:2px;overscroll-behavior-x:contain;padding:2px 2px 13px;scrollbar-width:thin;scrollbar-color:#bbc4bf transparent}
+.recommendations-section .recommendations-list>li,#recommendations-dialog .recommendations-list>li{flex:0 0 calc((100% - 15px)/2);scroll-snap-align:start}
+.recommendations-section .recommendations-list:focus-visible,#recommendations-dialog .recommendations-list:focus-visible{outline:2px solid var(--green);outline-offset:4px;border-radius:14px}
 .recommendation-card{display:flex;flex-direction:column;height:100%;overflow:hidden;border:1px solid #e2e5e8;border-radius:19px;background:#fff;color:var(--ink);box-shadow:0 3px 12px #1c263a05;transition:transform .22s ease,box-shadow .22s ease}
 .recommendation-card:hover{transform:translateY(-3px);box-shadow:0 9px 24px #1c263a10}
 .recommendation-card:active{transform:scale(.99)}
@@ -19,7 +22,8 @@
 .recommendation-price{margin:auto 0 17px;font-family:'Playfair Display',Georgia,serif;font-size:27px;font-weight:400;letter-spacing:-.035em;line-height:1.3}
 .recommendation-occupied{align-self:flex-start;margin:0 0 12px;padding:4px 8px;border-radius:7px;background:#f0f3f1;color:#536057;font-size:12px;font-weight:500;line-height:1.4}
 .recommendation-cta{display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:12px;background:#e9f6ee;color:#106c3f;font-size:15px;font-weight:600}
-.recommendations-hint,.recommendations-hint[hidden]{display:none}
+.recommendations-hint{display:block;margin:7px 0 0;color:var(--muted);font-size:14px;text-align:center}
+.recommendations-hint[hidden]{display:none}
 #recommendations-dialog{position:fixed;inset:0;margin:auto;width:790px;max-width:calc(100vw - 40px);max-height:calc(100dvh - 48px);overflow:auto;padding:30px;border:1px solid #ffffffd9;border-radius:26px;background:#f7f9fb;color:var(--ink);font-family:var(--ui-font,var(--sans));box-shadow:0 25px 90px #111c2d42,inset 0 1px 0 #fff;overscroll-behavior:contain}
 #recommendations-dialog::backdrop{background:#10182052;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
 #recommendations-dialog>.close-button{position:absolute;top:17px;right:17px;display:grid;place-items:center;width:44px;height:44px;min-width:44px;border:1px solid #ffffffbd;border-radius:50%;background:#ffffffba;color:#46525c;font-size:23px}
@@ -38,7 +42,7 @@
   .listing-layout .property-content>.recommendations-section{padding:6px 0 4px}
   .recommendations-list{display:flex;gap:13px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:1px;overscroll-behavior-x:contain;padding:0 1px 9px;scrollbar-width:none}
   .recommendations-list::-webkit-scrollbar{display:none}
-  .recommendations-list>li{flex:0 0 86%;scroll-snap-align:start}
+  .recommendations-list>li,.recommendations-section .recommendations-list>li,#recommendations-dialog .recommendations-list>li{flex:0 0 86%;scroll-snap-align:start}
   .recommendations-list>li:only-child{flex-basis:100%}
   .recommendation-body{padding:17px}
   .recommendation-title{font-size:18px}

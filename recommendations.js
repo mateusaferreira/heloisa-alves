@@ -3,7 +3,7 @@
   const dialog = document.querySelector('#recommendations-dialog');
   if (!section || !dialog || !window.RecommendationModel) return;
   const catalog = Array.isArray(window.PROPERTY_CATALOG) ? window.PROPERTY_CATALOG : [];
-  const properties = window.RecommendationModel.select(catalog, document.body.dataset.propertyId, location.href, 2);
+  const properties = window.RecommendationModel.select(catalog, document.body.dataset.propertyId, location.href, catalog.length);
   // Não publique recomendações vazias, o próprio anúncio ou imóveis fictícios.
   if (!properties.length) return;
 
@@ -54,7 +54,7 @@
     return item;
   }
   for (const list of [section.querySelector('.recommendations-list'), dialog.querySelector('.recommendations-list')]) {
-    list.append(...properties.map(card));
+    if (list.dataset.prerendered !== 'true') list.append(...properties.map(card));
   }
   section.hidden = false;
   section.querySelector('.recommendations-hint').hidden = properties.length < 2;
