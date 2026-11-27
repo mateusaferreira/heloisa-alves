@@ -22,5 +22,12 @@
   document.querySelector('.home-reset').addEventListener('click',()=>{input.value='';kind='todos';area=null;update();input.focus();});
   document.addEventListener('home:map-ready',()=>update());
   document.addEventListener('home:map-area',event=>{area=event.detail;update(!area);});
+  const actions=document.querySelector('.home-contact-actions'),intro=document.querySelector('.home-intro');
+  if(actions&&intro){
+    const origin=document.createComment('home-contact-position'),desktop=matchMedia('(min-width:761px)');
+    actions.before(origin);
+    const placeActions=()=>desktop.matches?intro.append(actions):origin.after(actions);
+    desktop.addEventListener('change',placeActions);placeActions();
+  }
   update();
 })();

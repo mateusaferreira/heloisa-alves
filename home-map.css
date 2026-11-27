@@ -5,6 +5,24 @@
 @media(prefers-reduced-motion:reduce){.home-view-toggle button,.property-price-pin,.map-area-actions button,.map-property-card,.map-building-options button{transition:none}.home-view-toggle button:hover,.map-area-actions button:hover,.map-property-card:hover{transform:none}}
 .map-canvas-wrap{height:340px}
 .map-back-to-list{display:none}
+@media(min-width:761px){
+ .home-map-panel>.map-selection{display:none}
+ .home-map-panel .map-canvas-wrap{height:clamp(420px,calc(100dvh - 160px),650px);min-height:420px;max-height:none}
+ .property-map-popup .leaflet-popup-content-wrapper{padding:23px 13px 13px;border-radius:20px;box-shadow:0 8px 32px #17232e30}
+ .property-map-popup .leaflet-popup-content{margin:0;max-width:min(320px,calc(100vw - 80px));font-family:var(--home-font)}
+ .property-map-popup .map-property-card{grid-template-columns:88px minmax(0,1fr);gap:11px;border:0;padding:0;border-radius:12px;text-decoration:none;color:var(--ink)}
+ .property-map-popup .map-property-card:hover{transform:none;box-shadow:none}
+ .property-map-popup .map-property-card img{width:88px;height:112px;border-radius:11px}
+ .property-map-popup .map-property-copy strong{font-size:17px;line-height:1.25}
+ .property-map-popup .map-property-copy b{font-size:24px;white-space:nowrap}
+ .property-map-popup .map-property-facts{font-size:11px}
+ .property-map-popup .map-property-open{grid-column:1/-1;text-align:center;min-height:39px;padding:11px;font-size:13px;border-radius:11px}
+ .property-map-popup .map-building-options{gap:6px;margin:0 0 12px;padding-right:9px}
+ .property-map-popup .map-building-options button{font-size:12px;min-height:33px;padding:6px 9px}
+ .property-map-popup .map-approximate{margin:9px 0 0;font-size:12px}
+ .home-map-panel .property-map-popup a.leaflet-popup-close-button{top:2px;right:4px;width:27px;height:27px;font:22px/27px Arial,sans-serif;color:#56606b;border-radius:50%}
+ .property-map-popup a.leaflet-popup-close-button:hover{background:#f0f2f4;color:#25292e}
+}
 dialog.home-map-dialog{position:fixed;inset:0;margin:0;padding:0;width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;border:0;border-radius:0;background:#eef0ed;color:var(--ink);overflow:hidden;overscroll-behavior:none;font-family:var(--home-font)}
 dialog.home-map-dialog:not([open]){display:none}
 dialog.home-map-dialog::backdrop{background:#eef0ed;backdrop-filter:none;-webkit-backdrop-filter:none}

@@ -8,7 +8,7 @@
   const number=new Intl.NumberFormat('pt-BR'),money=value=>'R$ '+number.format(value);
   const short=value=>value>=1000000?'R$ '+(value/1000000).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+' mi':'R$ '+number.format(value/1000)+' mil';
   const escape=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('"','&quot;');
-  let map,layer,loadPromise,active=false,blocked=false,selected=null,visibleIds=[],markers=[],groups=[],currentGroup=null;
+  let map,layer,loadPromise,popup,active=false,blocked=false,selected=null,visibleIds=[],markers=[],groups=[],currentGroup=null;
   const mobile=matchMedia('(max-width:760px)'),placeholder=document.createComment('home-map-position');
   panel.before(placeholder);
   const fullscreen=document.createElement('dialog');fullscreen.className='home-map-dialog';fullscreen.setAttribute('aria-label','Buscar imóveis no mapa');document.body.append(fullscreen);
@@ -18,6 +18,7 @@
   }
   function syncFullscreen(){
     if(active&&mobile.matches){
+      if(popup)map?.closePopup(popup);
       if(!fullscreen.open){fullscreen.append(panel);document.body.classList.add('home-map-fullscreen');fullscreen.showModal();backButton.focus({preventScroll:true});
         if(!history.state?.homeMapFullscreen)history.pushState({...history.state,homeMapFullscreen:true},'',location.href);
       }
@@ -91,6 +92,7 @@
   }
   function selectProperty(id,group,pan=false,source='control'){
     const p=catalog.get(id),place=locations.get(id);if(!p||!place)return;
+    group=groups.find(entry=>entry.ids.includes(id))||group;
     const changed=selected!==id;selected=id;currentGroup=group;
     if(fullscreen.open){
       if(changed&&source!=='render')render(false);
@@ -101,14 +103,20 @@
     }
     selection.classList.remove('is-carousel');highlight(group);
     const options=group.ids.length>1?`<div class="map-building-options" role="group" aria-label="${group.sites>1?'Imóveis nesta região':'Imóveis neste condomínio'}">${group.ids.map(key=>{const item=catalog.get(key);return `<button type="button" data-map-property="${escape(key)}" aria-pressed="${key===id}">${group.sites>1?escape(item.title)+' · ':''}${money(item.price)}${item.occupied?' · locado':''}</button>`;}).join('')}</div>`:'';
-    selection.innerHTML=options+propertyCard(id);
-    selection.hidden=false;
-    for(const button of selection.querySelectorAll('[data-map-property]'))button.onclick=()=>selectProperty(button.dataset.mapProperty,group);
+    selection.hidden=true;
+    selection.innerHTML='';
+    if(source==='control'){
+      if(!popup)popup=L.popup({className:'property-map-popup',minWidth:230,maxWidth:320,autoPanPaddingTopLeft:[22,80],autoPanPaddingBottomRight:[22,30],closeButton:true});
+      popup.setLatLng([place.lat,place.lng]).setContent(options+propertyCard(id)).openOn(map);
+      const close=popup.getElement().querySelector('.leaflet-popup-close-button');if(close){close.setAttribute('aria-label','Fechar card do imóvel');close.title='Fechar card do imóvel';}
+      for(const button of popup.getElement().querySelectorAll('[data-map-property]'))button.onclick=()=>selectProperty(button.dataset.mapProperty,group);
+    }
     if(pan&&!map.getBounds().contains([place.lat,place.lng])){blocked=true;map.panTo([place.lat,place.lng],{animate:false});blocked=false;}
   }
   function render(resetView){
     if(!map)return;
     if(!visibleIds.includes(selected))selected=visibleIds.includes('maison-giverny')?'maison-giverny':visibleIds[0]||null;
+    if(popup?.isOpen()&&!visibleIds.includes(popup.getElement()?.querySelector('.map-property-card')?.getAttribute('href')?.split('/').filter(Boolean).pop()))map.closePopup(popup);
     for(const item of markers)item.marker.remove();markers=[];groups=[];
     const grouped=new Map();
     for(const id of visibleIds){const place=locations.get(id),p=catalog.get(id);if(!place||!p)continue;const key=place.lat+','+place.lng;if(!grouped.has(key))grouped.set(key,{lat:place.lat,lng:place.lng,ids:[]});grouped.get(key).ids.push(id);}
@@ -151,7 +159,7 @@
     }catch{loadPromise=null;state.hidden=false;state.textContent='Não foi possível carregar o mapa. Continue pela Lista ou tente abrir Mapa novamente.';}
   }
   function setView(view){
-    active=view==='map';shell.classList.toggle('has-map',active);panel.hidden=!active;
+    active=view==='map';shell.classList.toggle('has-map',active);panel.hidden=!active;if(!active&&popup)map?.closePopup(popup);
     for(const button of viewButtons)button.setAttribute('aria-pressed',String(button.dataset.homeView===view));
     syncFullscreen();
     if(active)ensureMap();
@@ -160,6 +168,6 @@
   document.addEventListener('home:results',event=>{visibleIds=event.detail.ids;allButton.hidden=!event.detail.area;render(event.detail.resetView);});
   areaButton.onclick=()=>{const b=map.getBounds();areaButton.hidden=true;document.dispatchEvent(new CustomEvent('home:map-area',{detail:{south:b.getSouth(),north:b.getNorth(),west:b.getWest(),east:b.getEast()}}));};
   allButton.onclick=()=>document.dispatchEvent(new CustomEvent('home:map-area',{detail:null}));
-  for(const card of cards){const id=card.querySelector('a').getAttribute('href').split('/').filter(Boolean).pop();const show=()=>{if(!active||!map||card.hidden)return;const group=groups.find(g=>g.ids.includes(id));if(group)selectProperty(id,group,true);};card.addEventListener('mouseenter',show);card.addEventListener('focusin',show);}
+  for(const card of cards){const id=card.querySelector('a').getAttribute('href').split('/').filter(Boolean).pop();const show=()=>{if(!active||!map||card.hidden)return;const group=groups.find(g=>g.ids.includes(id));if(group)selectProperty(id,group,true,'list');};card.addEventListener('mouseenter',show);card.addEventListener('focusin',show);}
   document.dispatchEvent(new CustomEvent('home:map-ready'));
 })();
