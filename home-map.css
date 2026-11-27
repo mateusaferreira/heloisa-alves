@@ -28,6 +28,21 @@ dialog.home-map-dialog:not([open]){display:none}
 dialog.home-map-dialog::backdrop{background:#eef0ed;backdrop-filter:none;-webkit-backdrop-filter:none}
 body.home-map-fullscreen{overflow:hidden;overscroll-behavior:none}
 body.home-map-fullscreen .home-contact-actions{visibility:hidden}
+body.home-map-fullscreen .mobile-actions{visibility:hidden}
+.recommendations-map-button{display:flex;align-items:center;justify-content:center;gap:11px;width:100%;min-height:51px;padding:13px 17px;margin:0 0 20px;border:1px solid var(--green);border-radius:15px;background:var(--green);color:#fff;font:600 16px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;box-shadow:0 3px 10px #26313d10;transition:transform .2s,background .2s,box-shadow .2s;cursor:pointer}
+.recommendations-map-button svg{width:23px;height:23px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.recommendations-map-button .map-entry-chevron{width:19px;height:19px;margin-left:auto}
+.recommendations-map-button:hover{background:var(--accent-hover,#25292e);transform:translateY(-1px);box-shadow:0 5px 16px #26313d1c}
+.recommendations-map-button:focus-visible{outline:3px solid #747f8d;outline-offset:3px}
+.property-map-dialog{--home-font:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif}
+@media(min-width:761px){
+ .recommendations-map-button{width:max-content;max-width:100%;min-width:300px}
+ dialog.home-map-dialog.property-map-dialog{inset:32px;margin:auto;width:min(1180px,calc(100vw - 64px));max-width:calc(100vw - 64px);height:calc(100dvh - 64px);max-height:900px;border:1px solid #ffffff8c;border-radius:24px;box-shadow:0 20px 90px #15223140}
+ dialog.property-map-dialog::backdrop{background:#17212b66;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+ .home-map-dialog.property-map-dialog .map-selection.is-carousel{width:min(480px,100%);left:50%;right:auto;transform:translateX(-50%)}
+ .home-map-dialog.property-map-dialog .map-selection:not([hidden]){display:block}
+ .home-map-dialog.property-map-dialog .map-property-copy>.map-property-facts{font-size:12px}
+}
 .home-map-dialog .home-map-panel{position:relative;inset:auto;width:100%;height:100%;margin:0;border:0;border-radius:0;overflow:hidden;box-shadow:none;background:#eef0ed}
 .home-map-dialog .map-canvas-wrap{position:absolute;inset:0;width:100%;height:100%;min-height:0;max-height:none}
 .home-map-dialog .map-back-to-list{position:absolute;z-index:5;display:flex;align-items:center;justify-content:center;gap:6px;top:calc(14px + env(safe-area-inset-top));left:14px;min-height:46px;padding:10px 16px 10px 11px;border:1px solid #d8e2da;border-radius:28px;background:#fff;color:#263a2c;box-shadow:0 3px 18px #203d2225;font:550 15px/1.35 var(--home-font);transition:background .2s,transform .2s}
@@ -61,4 +76,5 @@ body.home-map-fullscreen .home-contact-actions{visibility:hidden}
 .home-map-dialog .leaflet-top.leaflet-right{top:calc(7px + env(safe-area-inset-top));right:5px}
 .home-map-dialog .leaflet-control-attribution{margin-bottom:env(safe-area-inset-bottom);font-size:10px;padding:3px 6px}
 @media(prefers-reduced-motion:reduce){.home-map-dialog .map-back-to-list{transition:none}.home-map-dialog .map-back-to-list:hover{transform:none}}
+@media(prefers-reduced-motion:reduce){.recommendations-map-button{transition:none}.recommendations-map-button:hover{transform:none}}
 @media(max-width:760px){.map-canvas-wrap{height:300px;max-height:38svh;min-height:230px}.map-property-card{grid-template-columns:90px minmax(0,1fr)}.map-building-options{max-height:80px;overflow:auto}.map-building-options button{flex:1 1 auto}}
