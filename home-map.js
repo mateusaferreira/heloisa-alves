@@ -41,37 +41,96 @@
     return loadPromise;
   }
   function highlight(group){for(const entry of markers){entry.marker.getElement()?.classList.toggle('is-selected',entry.group===group);entry.marker.setZIndexOffset(entry.group===group?1000:0);}}
-  function selectProperty(id,group,pan=false){
-    const p=catalog.get(id),place=locations.get(id);if(!p||!place)return;
-    selected=id;currentGroup=group;highlight(group);
+  let deckSignature='',deckTimer,deckTarget=null,centerToken=0;
+  const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
+  function propertyCard(id){
+    const p=catalog.get(id),place=locations.get(id);
     const title=p.id.startsWith('casa-terra')?'Casa Terra Bonita':p.id.startsWith('casa-jardim')?'Casa Jardim Itatiaia 2':p.title;
+    return `<a class="map-property-card" href="${escape(p.url)}"><img src="${escape(p.image)}" alt="${escape(p.imageAlt)}" width="128" height="100" draggable="false"><span class="map-property-copy"><strong>${escape(title)}${p.occupied?' · locado':''}</strong><span>${escape(p.neighborhood)}</span><span class="map-property-facts">${number.format(p.area)} m² · ${p.bedrooms} quartos · ${p.parking} ${p.parking===1?'vaga':'vagas'}</span><b>${money(p.price)}</b></span><span class="map-property-open">Ver imóvel</span></a>${place.approximate?'<p class="map-approximate">Localização aproximada na rua. Número sob consulta.</p>':''}`;
+  }
+  function centerProperty(id){
+    const place=locations.get(id);if(!map||!place)return;
+    const token=++centerToken;blocked=true;map.stop();
+    const point=map.latLngToContainerPoint([place.lat,place.lng]),middle=map.getSize().divideBy(2);
+    if(point.distanceTo(middle)<1){blocked=false;return;}
+    map.once('moveend',()=>{if(token===centerToken)blocked=false;});
+    map.panTo([place.lat,place.lng],{animate:!reducedMotion.matches,duration:.35});
+  }
+  function carousel(id,scrollToCard){
+    const ids=visibleIds.filter(key=>catalog.has(key)&&locations.has(key)),signature=ids.join('|');
+    selection.classList.add('is-carousel');
+    if(signature!==deckSignature||!selection.querySelector('.map-card-track')){
+      clearTimeout(deckTimer);deckTarget=null;deckSignature=signature;
+      selection.innerHTML=`<p class="map-card-counter" role="status" aria-live="polite"></p><div class="map-card-track" tabindex="0" role="region" aria-roledescription="carrossel" aria-label="Imóveis no mapa. Deslize ou use as setas para trocar de imóvel.">${ids.map((key,index)=>`<div class="map-card-slide" data-map-slide="${escape(key)}" role="group" aria-roledescription="slide" aria-label="${index+1} de ${ids.length}">${propertyCard(key)}</div>`).join('')}</div>`;
+      const track=selection.querySelector('.map-card-track');
+      track.dataset.count=String(ids.length);
+      const settle=()=>{
+        if(!fullscreen.open||!track.isConnected)return;
+        if(deckTarget!==null){if(Math.abs(track.scrollLeft-deckTarget)>2)return;deckTarget=null;}
+        const pad=parseFloat(getComputedStyle(track).paddingLeft)||0;
+        const nearest=[...track.children].reduce((best,slide)=>Math.abs(slide.offsetLeft-pad-track.scrollLeft)<Math.abs(best.offsetLeft-pad-track.scrollLeft)?slide:best);
+        const key=nearest?.dataset.mapSlide;if(key&&key!==selected){const group=groups.find(g=>g.ids.includes(key));selectProperty(key,group,true,'swipe');}
+      };
+      track.addEventListener('scroll',()=>{clearTimeout(deckTimer);deckTimer=setTimeout(settle,100);},{passive:true});
+      track.addEventListener('scrollend',settle);
+      track.addEventListener('pointerdown',()=>{deckTarget=null;},{passive:true});
+      track.addEventListener('touchstart',()=>{deckTarget=null;},{passive:true});
+      track.addEventListener('wheel',()=>{deckTarget=null;},{passive:true});
+      track.addEventListener('keydown',event=>{
+        if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
+        event.preventDefault();const current=ids.indexOf(selected),index=event.key==='Home'?0:event.key==='End'?ids.length-1:Math.max(0,Math.min(ids.length-1,current+(event.key==='ArrowRight'?1:-1)));
+        const key=ids[index];selectProperty(key,groups.find(g=>g.ids.includes(key)),true,'keyboard');
+      });
+      scrollToCard=true;
+    }
+    const track=selection.querySelector('.map-card-track'),slides=[...track.children],index=ids.indexOf(id);
+    const counter=selection.querySelector('.map-card-counter'),label=ids.length===1?'1 imóvel encontrado':`${index+1} de ${ids.length} imóveis · Deslize para ver mais`;
+    if(counter.textContent!==label)counter.textContent=label;
+    for(const slide of slides){const current=slide.dataset.mapSlide===id;slide.classList.toggle('is-current',current);if(current)slide.querySelector('a').setAttribute('aria-current','true');else slide.querySelector('a').removeAttribute('aria-current');}
+    if(scrollToCard&&index>=0){const pad=parseFloat(getComputedStyle(track).paddingLeft)||0;deckTarget=Math.max(0,Math.min(track.scrollWidth-track.clientWidth,slides[index].offsetLeft-pad));track.scrollTo({left:deckTarget,behavior:reducedMotion.matches?'auto':'smooth'});}
+  }
+  function selectProperty(id,group,pan=false,source='control'){
+    const p=catalog.get(id),place=locations.get(id);if(!p||!place)return;
+    const changed=selected!==id;selected=id;currentGroup=group;
+    if(fullscreen.open){
+      if(changed&&source!=='render')render(false);
+      group=groups.find(g=>g.ids.includes(id));currentGroup=group;highlight(group);
+      selection.hidden=false;carousel(id,source!=='swipe'&&source!=='render');
+      if(pan)centerProperty(id);
+      return;
+    }
+    selection.classList.remove('is-carousel');highlight(group);
     const options=group.ids.length>1?`<div class="map-building-options" role="group" aria-label="${group.sites>1?'Imóveis nesta região':'Imóveis neste condomínio'}">${group.ids.map(key=>{const item=catalog.get(key);return `<button type="button" data-map-property="${escape(key)}" aria-pressed="${key===id}">${group.sites>1?escape(item.title)+' · ':''}${money(item.price)}${item.occupied?' · locado':''}</button>`;}).join('')}</div>`:'';
-    selection.innerHTML=`${options}<a class="map-property-card" href="${escape(p.url)}"><img src="${escape(p.image)}" alt="${escape(p.imageAlt)}" width="128" height="100"><span class="map-property-copy"><strong>${escape(title)}${p.occupied?' · locado':''}</strong><span>${escape(p.neighborhood)}</span><span class="map-property-facts">${number.format(p.area)} m² · ${p.bedrooms} quartos · ${p.parking} ${p.parking===1?'vaga':'vagas'}</span><b>${money(p.price)}</b></span><span class="map-property-open">Ver imóvel</span></a>${place.approximate?'<p class="map-approximate">Localização aproximada na rua. Número sob consulta.</p>':''}`;
+    selection.innerHTML=options+propertyCard(id);
     selection.hidden=false;
     for(const button of selection.querySelectorAll('[data-map-property]'))button.onclick=()=>selectProperty(button.dataset.mapProperty,group);
     if(pan&&!map.getBounds().contains([place.lat,place.lng])){blocked=true;map.panTo([place.lat,place.lng],{animate:false});blocked=false;}
   }
   function render(resetView){
     if(!map)return;
+    if(!visibleIds.includes(selected))selected=visibleIds.includes('maison-giverny')?'maison-giverny':visibleIds[0]||null;
     for(const item of markers)item.marker.remove();markers=[];groups=[];
     const grouped=new Map();
     for(const id of visibleIds){const place=locations.get(id),p=catalog.get(id);if(!place||!p)continue;const key=place.lat+','+place.lng;if(!grouped.has(key))grouped.set(key,{lat:place.lat,lng:place.lng,ids:[]});grouped.get(key).ids.push(id);}
-    groups=[...grouped.values()].map(g=>({...g,sites:1}));
+    let focused=null;
+    if(fullscreen.open&&selected){const place=locations.get(selected);focused={lat:place.lat,lng:place.lng,ids:[selected],sites:1};for(const group of grouped.values())group.ids=group.ids.filter(id=>id!==selected);}
+    groups=[...grouped.values()].filter(g=>g.ids.length).map(g=>({...g,sites:1}));
     // Agrupa etiquetas próximas na escala atual, sem deslocar pins de endereços.
     let merged=true;
     while(merged){merged=false;outer:for(let i=0;i<groups.length;i++)for(let j=i+1;j<groups.length;j++){
       const a=map.latLngToContainerPoint([groups[i].lat,groups[i].lng]),b=map.latLngToContainerPoint([groups[j].lat,groups[j].lng]);
       if(Math.abs(a.x-b.x)<125&&Math.abs(a.y-b.y)<48){const first=groups[i],second=groups[j],sites=first.sites+second.sites;first.lat=(first.lat*first.sites+second.lat*second.sites)/sites;first.lng=(first.lng*first.sites+second.lng*second.sites)/sites;first.sites=sites;first.ids.push(...second.ids);groups.splice(j,1);merged=true;break outer;}
     }}
+    if(focused)groups.push(focused);
     for(const group of groups){
       group.ids.sort((a,b)=>catalog.get(a).price-catalog.get(b).price);
       const p=catalog.get(group.ids[0]),multiple=group.ids.length>1;
       const icon=L.divIcon({className:'property-price-marker',html:`<button class="property-price-pin" type="button" aria-label="${escape(multiple?group.ids.length+' imóveis '+(group.sites>1?'nesta região':'no '+p.title)+', a partir de '+money(p.price):p.title+', '+money(p.price))}"><span>${short(p.price)}</span>${multiple?`<small>${group.ids.length}</small>`:''}</button>`,iconSize:[multiple?144:116,40],iconAnchor:[multiple?72:58,44]});
       const marker=L.marker([group.lat,group.lng],{icon,keyboard:false}).addTo(map);
-      marker.on('click',()=>{selectProperty(group.ids.includes(selected)?selected:group.ids[0],group);if(group.sites>1){blocked=true;map.fitBounds(group.ids.map(id=>{const p=locations.get(id);return[p.lat,p.lng];}),mapFitOptions(17));blocked=false;}});markers.push({marker,group});
+      marker.on('click',()=>{selectProperty(group.ids.includes(selected)?selected:group.ids[0],group,fullscreen.open&&group.sites===1);if(group.sites>1){blocked=true;map.fitBounds(group.ids.map(id=>{const p=locations.get(id);return[p.lat,p.lng];}),mapFitOptions(17));blocked=false;}});markers.push({marker,group});
     }
     const chosen=groups.find(g=>g.ids.includes(selected))||groups.find(g=>g.ids.includes('maison-giverny'))||groups[0];
-    if(chosen)selectProperty(chosen.ids.includes(selected)?selected:chosen.ids[0],chosen);else{selection.hidden=true;selected=null;currentGroup=null;}
+    if(chosen)selectProperty(chosen.ids.includes(selected)?selected:chosen.ids[0],chosen,false,'render');else{selection.hidden=true;selected=null;currentGroup=null;}
     state.hidden=groups.length>0;state.textContent=groups.length?'':'Nenhum imóvel nesta busca. Altere os filtros para ver outras opções.';
     if(resetView&&groups.length){blocked=true;map.invalidateSize({pan:false});map.fitBounds(visibleIds.map(id=>locations.get(id)).filter(Boolean).map(p=>[p.lat,p.lng]),mapFitOptions(16));blocked=false;areaButton.hidden=true;}
   }
