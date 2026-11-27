@@ -1,0 +1,28 @@
+.property-extra-facts{display:flex;flex-wrap:wrap;gap:7px 15px;margin:15px 0 0;color:var(--muted);font-size:14px;line-height:1.5}
+.recommendations-browse{display:inline-flex;align-items:center;min-height:40px;margin:-5px 0 12px;color:#106c3f;font-size:14px;font-weight:550;text-underline-offset:4px}
+.recommendations-browse:hover{text-decoration:underline}
+.catalog-page{background:#f5f5f7;font-family:var(--ui-font,var(--sans))}
+.catalog-page .header,.catalog-page footer{background:#fff}
+.catalog-heading{padding:40px 0 27px}
+.catalog-heading h1{margin-bottom:10px;font-size:36px;letter-spacing:-.035em}
+.catalog-heading p{margin:0;color:var(--muted);font-size:16px}
+.catalog-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-bottom:35px}
+.catalog-grid .recommendation-title{font-size:19px}
+.catalog-page .opportunities-card{max-width:800px;margin:0 auto 40px}
+.catalog-page .footer-inner{padding-bottom:36px}
+.listing-layout .contact-card:not(.price-comparison) .price{font-family:'Playfair Display',Georgia,serif;font-weight:400;letter-spacing:-.04em}
+.listing-layout .contact-card:not(.price-comparison) .cost-note{font-size:14px;line-height:1.6}
+.occupied-note{display:flex;align-items:flex-start;gap:9px;margin:17px 0 0;padding:13px 15px;border:1px solid #e2e7e3;border-radius:13px;background:#f4f7f4;color:#44544b;font-size:14px;line-height:1.5}
+.occupied-note strong{font-weight:600}
+.location-map{overflow:hidden;border-radius:15px}
+.location-map iframe{border-radius:15px 15px 0 0}
+.location-map .map-bottom{margin-top:0}
+.gallery-grid[data-count="1"]{grid-template-columns:1fr}
+.gallery-grid[data-count="1"]>.gallery-main{grid-column:1/-1}
+.gallery-grid[data-count="2"]{grid-template-columns:1.5fr 1fr}
+.gallery-grid[data-count="2"]>button:nth-child(2){grid-row:span 2}
+.listing-layout .contact-card:not(.price-comparison) .offer-entry{padding:0;margin-top:12px;border:0}
+.listing-layout .contact-card:not(.price-comparison) .contact-actions{display:flex;margin-top:22px}
+@media(max-width:1000px){.catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.property-extra-facts{gap:6px 13px;font-size:14px}.listing-layout .contact-card:not(.price-comparison) .price{font-size:36px}.location-map iframe{height:300px}.catalog-heading{padding:28px 0 22px}.catalog-heading h1{font-size:30px}.catalog-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:20px;overflow:visible;margin-bottom:25px;padding:0}.catalog-page .opportunities-card{margin-bottom:28px}}
+@media(max-width:370px){.listing-layout .contact-card:not(.price-comparison) .price{font-size:33px}}

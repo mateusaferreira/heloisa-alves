@@ -46,7 +46,9 @@
       fact.append(icon(name), element('span', '', value + ' ' + label));
       facts.append(fact);
     }
-    body.append(title, place, facts, element('p', 'recommendation-price', currency.format(property.price)), element('span', 'recommendation-cta', 'Ver imóvel'));
+    body.append(title, place);
+    if(property.occupied===true)body.append(element('p','recommendation-occupied','Imóvel locado'));
+    body.append(facts, element('p', 'recommendation-price', currency.format(property.price)), element('span', 'recommendation-cta', 'Ver imóvel'));
     link.append(photo, body);
     item.append(link);
     return item;

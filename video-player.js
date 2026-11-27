@@ -1,6 +1,7 @@
 (()=>{
   const $=selector=>document.querySelector(selector);
   const dialog=$('#video-dialog'),video=$('#property-video'),frame=$('#video-frame'),chrome=$('#video-chrome');
+  if(!dialog||!video||!$('#open-video'))return;
   const tap=$('#video-tap'),play=$('#video-play'),mute=$('#video-mute'),fullscreen=$('#video-fullscreen');
   const progress=$('#video-progress'),time=$('#video-time'),status=$('#video-status'),feedback=$('#video-feedback');
   const source=video.querySelector('source'),mediaURL=source.src;

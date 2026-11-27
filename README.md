@@ -1,9 +1,9 @@
 # Heloísa Alves Imóveis
 
-Site responsivo do apartamento Maison Giverny, na Gleba Palhano, Londrina.
+Site responsivo com casas e apartamentos em Londrina. Catálogo em /imoveis/ e anúncio do Maison Giverny na página inicial.
 
 HTML, CSS e JavaScript sem etapa de build. Publique o diretório raiz como site estático.
 
-Contatos e convite do grupo em `site-config.js`. As mensagens de WhatsApp usam o endereço da página em que o anúncio foi aberto.
+Contatos e convite do grupo em `site-config.js`. As mensagens de WhatsApp identificam o imóvel, seu valor e a página de origem.
 
-Fotos, vídeo e identidade visual fornecidos pelo responsável pelo site.
+Recomendações entre imóveis e proposta enviada pelo WhatsApp. Identidade visual fornecida pelo responsável pelo site.

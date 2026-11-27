@@ -18,6 +18,7 @@
       seen.add(path);
       let score = 0;
       if (current) {
+        if (item.type && current.type && normalize(item.type) === normalize(current.type)) score += 6;
         if (normalize(item.city) === normalize(current.city)) score += 8;
         if (normalize(item.neighborhood) === normalize(current.neighborhood)) score += 5;
         if (current.price > 0) score += Math.max(0, 4 - Math.abs(item.price - current.price) / current.price * 8);
