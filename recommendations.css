@@ -6,7 +6,13 @@
 .recommendations-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;list-style:none;padding:0;margin:0}
 .recommendations-list>li{min-width:0}
 .recommendations-section .recommendations-list,#recommendations-dialog .recommendations-list{display:flex;gap:15px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:2px;overscroll-behavior-x:contain;padding:2px 2px 13px;scrollbar-width:thin;scrollbar-color:#bbc4bf transparent}
-.recommendations-section .recommendations-list>li,#recommendations-dialog .recommendations-list>li{flex:0 0 calc((100% - 15px)/2);scroll-snap-align:start}
+.recommendations-section .recommendations-list>li,#recommendations-dialog .recommendations-list>li{flex:0 0 44%;scroll-snap-align:start}
+.recommendations-carousel{position:relative;min-width:0}
+.recommendations-nav{position:absolute;top:112px;z-index:2;display:grid;place-items:center;width:44px;height:44px;padding:10px;border:1px solid #dbe1dd;border-radius:50%;background:#fff;color:#253f2e;box-shadow:0 4px 15px #152a1f24;transition:background .2s,opacity .2s,transform .2s}
+.recommendations-prev{left:-17px}.recommendations-next{right:-17px}
+.recommendations-nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.recommendations-nav:hover:not(:disabled){background:#edf5ef;transform:scale(1.05)}
+.recommendations-nav:disabled{opacity:.4;cursor:default;box-shadow:none}
 .recommendations-section .recommendations-list:focus-visible,#recommendations-dialog .recommendations-list:focus-visible{outline:2px solid var(--green);outline-offset:4px;border-radius:14px}
 .recommendation-card{display:flex;flex-direction:column;height:100%;overflow:hidden;border:1px solid #e2e5e8;border-radius:19px;background:#fff;color:var(--ink);box-shadow:0 3px 12px #1c263a05;transition:transform .22s ease,box-shadow .22s ease}
 .recommendation-card:hover{transform:translateY(-3px);box-shadow:0 9px 24px #1c263a10}
@@ -39,6 +45,7 @@
 .recommendations-modal-open .mobile-actions{visibility:hidden}
 @supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){#recommendations-dialog{background:linear-gradient(140deg,#ffffffeb,#f5f7fad9);backdrop-filter:blur(26px) saturate(125%);-webkit-backdrop-filter:blur(26px) saturate(125%)}}
 @media(max-width:760px){
+  .recommendations-nav{display:none}
   .listing-layout .property-content>.recommendations-section{padding:6px 0 4px}
   .recommendations-list{display:flex;gap:13px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:1px;overscroll-behavior-x:contain;padding:0 1px 9px;scrollbar-width:none}
   .recommendations-list::-webkit-scrollbar{display:none}

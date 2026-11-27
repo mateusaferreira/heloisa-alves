@@ -1,6 +1,6 @@
 (()=>{
   const data={title:'Maison Giverny',neighborhood:'Gleba Palhano',city:'Londrina',state:'PR',area:110,bedrooms:2,parking:2,price:1080000,...(window.PROPERTY_PAGE||{})};
-  const url=window.location?.protocol==='https:'?window.location.origin+(window.location.pathname||'/'):(data.canonicalUrl||'https://heloisa-alves-maison-giverny.qualimaqrefrigeracao.chatgpt.site/');
+  const url=window.location?.protocol==='https:'?window.location.origin+(window.location.pathname||'/'):(data.canonicalUrl||'https://heloisa-alves.vercel.app/imoveis/maison-giverny/');
   const money=new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'});
   const number=new Intl.NumberFormat('pt-BR',{maximumFractionDigits:2});
   const property=['🏡 *'+data.title.toLocaleUpperCase('pt-BR')+'*','📍 '+data.neighborhood+' • '+data.city+'/'+data.state,'📐 '+number.format(data.area)+' m² • 🛏️ '+data.bedrooms+(data.bedrooms===1?' quarto':' quartos')+' • 🚗 '+data.parking+(data.parking===1?' vaga':' vagas')];

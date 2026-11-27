@@ -100,7 +100,7 @@ window.PROPERTY_CATALOG = [
     "id": "maison-giverny",
     "title": "Maison Giverny",
     "type": "Apartamento",
-    "url": "/",
+    "url": "/imoveis/maison-giverny/",
     "status": "available",
     "city": "Londrina",
     "neighborhood": "Gleba Fazenda Palhano",
