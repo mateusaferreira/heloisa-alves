@@ -6,6 +6,8 @@
 .map-filter-trigger:hover,.map-filter-trigger[aria-expanded=true]{border-color:#9ba5b0;background:#f7f8fa}.map-filter-trigger.is-filtered{border-color:#a4adb7;background:#eef0f3;color:#25292e}
 .map-filter-clear{flex-shrink:0;min-height:40px;padding:7px 3px;border:0;background:transparent;text-decoration:underline;text-underline-offset:3px;font:500 12px/1.4 -apple-system,BlinkMacSystemFont,Segoe UI,Arial,sans-serif;color:#59636e;cursor:pointer}
 .home-page.map-filters-active .home-filters{display:none}
+.home-page.has-browse-filters .home-filters{display:none}
+.home-page.has-browse-filters .home-view-tools{width:100%;justify-content:space-between}
 .map-canvas-wrap>.map-filter-toolbar{position:absolute;left:14px;right:14px;top:76px;justify-content:flex-start;pointer-events:auto}
 .map-canvas-wrap>.map-filter-toolbar .map-filter-trigger{flex:1;min-width:0;max-width:220px;box-shadow:0 3px 12px #26313d18}
 dialog.map-filters-dialog{position:fixed;inset:auto;margin:0;padding:22px;width:360px;max-width:calc(100vw - 32px);max-height:calc(100dvh - 32px);overflow:auto;border:1px solid #e0e3e8;border-radius:20px;background:#fff;color:#25292e;box-shadow:0 12px 45px #1a253638;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;overscroll-behavior:contain;box-sizing:border-box}
@@ -29,7 +31,8 @@ dialog.map-filters-dialog:not([open]){display:none}dialog.map-filters-dialog::ba
  .home-map-dialog .map-filter-trigger.is-filtered[data-map-filter=bedrooms]>svg:first-child{display:none}
  .home-map-dialog .map-filter-clear{position:absolute;top:calc(100% + 8px);right:0;min-height:30px;background:#fffffff5;border-radius:18px;padding:5px 12px;width:max-content;max-width:max-content;margin-left:auto;box-shadow:0 2px 8px #26313d15}
  .home-map-dialog .map-area-actions{top:calc(184px + env(safe-area-inset-top))}.home-map-dialog .map-status{top:calc(235px + env(safe-area-inset-top))}
- .home-search-with-filters.has-filters-toolbar{display:block}.home-search-with-filters>.map-filter-toolbar{margin-top:12px;flex-wrap:wrap}.home-search-with-filters>.map-filter-toolbar .map-filter-trigger{flex:1;min-width:0;font-size:12px;padding-inline:9px}.home-search-with-filters>.map-filter-toolbar .map-filter-clear{margin-left:auto}
+ .home-search-with-filters.has-filters-toolbar{display:block}.home-search-with-filters>.map-filter-toolbar{margin-top:12px;flex-wrap:wrap}.home-search-with-filters>.map-filter-toolbar .map-filter-trigger{flex:1;min-width:0;font-size:12px;padding-inline:8px;gap:4px}.home-search-with-filters>.map-filter-toolbar .map-filter-clear{flex:0 0 100%;text-align:right;min-height:32px;padding:4px 0}
+ .home-search-with-filters .map-filter-trigger.is-filtered:is([data-map-filter=bedrooms],[data-map-filter=type])>svg:first-child{display:none}
  dialog.map-filters-dialog.is-mobile{inset:auto 0 0!important;width:100%!important;max-width:100%;margin:0;padding:27px 20px max(20px,env(safe-area-inset-bottom));border-radius:27px 27px 0 0;border:0;max-height:calc(100dvh - 28px);box-shadow:0 -8px 50px #16233225}
  dialog.map-filters-dialog.is-mobile:before{content:'';position:absolute;top:10px;left:calc(50% - 20px);width:40px;height:5px;border-radius:6px;background:#c7cbd1}
  dialog.map-filters-dialog.is-mobile::backdrop{background:#18212d6b;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}

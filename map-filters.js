@@ -21,10 +21,10 @@
  const normalizeText=text=>String(text).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('pt-BR');
  function countMatches(filters){const terms=normalizeText(document.querySelector('#property-search')?.value||'').split(/\s+/).filter(Boolean);return catalog.filter(p=>{const card=document.querySelector('[data-home-property] a[href="'+p.url+'"]')?.closest('[data-home-property]');return model.matches(p,filters)&&terms.every(term=>normalizeText(card?.dataset.search||'').includes(term));}).length;}
  function placeToolbar(){
-  const filtered=hasFilters(model.get());
   if((mobile.matches&&mapActive)||propertyMode)panel.querySelector('.map-canvas-wrap').prepend(toolbar);else searchRow?.append(toolbar);
-  toolbar.hidden=propertyMode?!mapActive:!mapActive&&!filtered;
+  toolbar.hidden=propertyMode?!mapActive:false;
   searchRow?.classList.toggle('has-filters-toolbar',toolbar.parentNode===searchRow&&!toolbar.hidden);
+  document.body.classList.toggle('has-browse-filters',!propertyMode);
   document.body.classList.toggle('map-filters-active',mapActive);
  }
  function updateLabels(){const value=model.get();let price='Valor';if(value.minPrice!==null&&value.maxPrice!==null)price=compact(value.minPrice)+' – '+compact(value.maxPrice);else if(value.maxPrice!==null)price='Até '+compact(value.maxPrice);else if(value.minPrice!==null)price='A partir de '+compact(value.minPrice);
