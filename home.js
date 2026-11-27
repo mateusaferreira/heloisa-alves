@@ -17,10 +17,5 @@
   for(const filter of filters)filter.addEventListener('click',()=>{kind=filter.dataset.filter;update();});
   clear.addEventListener('click',()=>{input.value='';update();input.focus();});
   document.querySelector('.home-reset').addEventListener('click',()=>{input.value='';kind='todos';update();input.focus();});
-  const menu=document.querySelector('.home-menu-toggle'),nav=document.querySelector('#home-nav');
-  function closeMenu(){nav.classList.remove('is-open');menu.setAttribute('aria-expanded','false');menu.setAttribute('aria-label','Abrir menu');}
-  menu.addEventListener('click',()=>{const open=!nav.classList.contains('is-open');nav.classList.toggle('is-open',open);menu.setAttribute('aria-expanded',String(open));menu.setAttribute('aria-label',open?'Fechar menu':'Abrir menu');});
-  nav.addEventListener('click',event=>{if(event.target.closest('a'))closeMenu();});
-  document.addEventListener('keydown',event=>{if(event.key==='Escape')closeMenu();});
   update();
 })();
