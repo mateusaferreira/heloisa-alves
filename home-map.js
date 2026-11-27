@@ -55,7 +55,7 @@
     try{
       await loadLibrary();
       if(!active||map)return;
-      map=L.map('property-map',{scrollWheelZoom:false,zoomControl:false,attributionControl:true}).setView([-23.339,-51.173],14);
+      map=L.map('property-map',{scrollWheelZoom:true,touchZoom:true,zoomControl:false,attributionControl:true}).setView([-23.339,-51.173],14);
       L.control.zoom({position:'topright',zoomInTitle:'Aproximar mapa',zoomOutTitle:'Afastar mapa'}).addTo(map);
       layer=L.tileLayer(window.PROPERTY_MAP_TILES||'https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>'}).addTo(map);
       let loadedTile=false;layer.on('tileerror',()=>{if(!loadedTile){state.hidden=false;state.textContent='O mapa está indisponível no momento. Você pode continuar pela Lista.';}});
