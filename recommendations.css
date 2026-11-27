@@ -1,0 +1,62 @@
+.recommendations-section[hidden]{display:none}
+.listing-layout .property-content>.recommendations-section{background:transparent;padding:6px 0 4px;box-shadow:none}
+.recommendations-heading{margin-bottom:19px}
+.recommendations-heading h2{margin-bottom:7px}
+.recommendations-heading p{margin:0;color:var(--muted);font-size:16px;line-height:1.5}
+.recommendations-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;list-style:none;padding:0;margin:0}
+.recommendations-list>li{min-width:0}
+.recommendation-card{display:flex;flex-direction:column;height:100%;overflow:hidden;border:1px solid #e2e5e8;border-radius:19px;background:#fff;color:var(--ink);box-shadow:0 3px 12px #1c263a05;transition:transform .22s ease,box-shadow .22s ease}
+.recommendation-card:hover{transform:translateY(-3px);box-shadow:0 9px 24px #1c263a10}
+.recommendation-card:active{transform:scale(.99)}
+.recommendation-card>img{width:100%;height:auto;aspect-ratio:1.5;object-fit:cover;background:#edeef0}
+.recommendation-body{display:flex;flex-direction:column;flex:1;padding:17px}
+.recommendation-title{margin:0 0 7px;font-size:17px;font-weight:650;letter-spacing:-.025em;line-height:1.35}
+.recommendation-location{display:flex;align-items:flex-start;gap:5px;margin:0 0 14px;color:var(--muted);font-size:14px;line-height:1.4}
+.recommendation-location svg{width:16px;height:18px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.5}
+.recommendation-facts{display:flex;flex-wrap:wrap;gap:7px 12px;margin:0 0 13px;color:#61676e;font-size:13px;line-height:1.5}
+.recommendation-facts>span{display:inline-flex;align-items:center;gap:5px}
+.recommendation-facts svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.recommendation-price{margin:auto 0 17px;font-family:'Playfair Display',Georgia,serif;font-size:27px;font-weight:400;letter-spacing:-.035em;line-height:1.3}
+.recommendation-cta{display:flex;align-items:center;justify-content:center;min-height:46px;border-radius:12px;background:#e9f6ee;color:#106c3f;font-size:15px;font-weight:600}
+.recommendations-hint,.recommendations-hint[hidden]{display:none}
+#recommendations-dialog{position:fixed;inset:0;margin:auto;width:790px;max-width:calc(100vw - 40px);max-height:calc(100dvh - 48px);overflow:auto;padding:30px;border:1px solid #ffffffd9;border-radius:26px;background:#f7f9fb;color:var(--ink);font-family:var(--ui-font,var(--sans));box-shadow:0 25px 90px #111c2d42,inset 0 1px 0 #fff;overscroll-behavior:contain}
+#recommendations-dialog::backdrop{background:#10182052;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
+#recommendations-dialog>.close-button{position:absolute;top:17px;right:17px;display:grid;place-items:center;width:44px;height:44px;min-width:44px;border:1px solid #ffffffbd;border-radius:50%;background:#ffffffba;color:#46525c;font-size:23px}
+#recommendations-dialog h2{margin:0 48px 8px 0;font-size:27px;line-height:1.2;letter-spacing:-.035em}
+#recommendations-dialog .recommendations-heading>p{font-size:16px}
+#recommendations-dialog .recommendations-list{margin-top:24px}
+#recommendations-dialog .recommendations-list>li:only-child{grid-column:1/-1;width:100%;max-width:400px;margin-inline:auto}
+#recommendations-dialog .recommendation-cta{background:var(--green);color:white}
+#recommendations-dialog .recommendation-card{box-shadow:none}
+.recommendations-continue{display:block;min-height:44px;margin:19px auto 0;padding:10px 15px;border:0;border-radius:12px;background:transparent;color:#106c3f;font:600 15px/1.4 var(--ui-font,var(--sans));transition:background .2s ease,transform .2s ease}
+.recommendations-continue:hover{background:#ffffffa8;transform:translateY(-1px)}
+.recommendations-modal-open{overflow:hidden}
+.recommendations-modal-open .mobile-actions{visibility:hidden}
+@supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){#recommendations-dialog{background:linear-gradient(140deg,#ffffffeb,#f5f7fad9);backdrop-filter:blur(26px) saturate(125%);-webkit-backdrop-filter:blur(26px) saturate(125%)}}
+@media(max-width:760px){
+  .listing-layout .property-content>.recommendations-section{padding:6px 0 4px}
+  .recommendations-list{display:flex;gap:13px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:1px;overscroll-behavior-x:contain;padding:0 1px 9px;scrollbar-width:none}
+  .recommendations-list::-webkit-scrollbar{display:none}
+  .recommendations-list>li{flex:0 0 86%;scroll-snap-align:start}
+  .recommendations-list>li:only-child{flex-basis:100%}
+  .recommendation-body{padding:17px}
+  .recommendation-title{font-size:18px}
+  .recommendation-facts{font-size:14px}
+  .recommendation-price{font-size:29px}
+  .recommendations-hint{display:block;margin:7px 0 0;color:var(--muted);font-size:13px;text-align:center}
+  .recommendations-hint[hidden]{display:none}
+  #recommendations-dialog{inset:auto 0 0;margin:0;width:100%;max-width:100%;max-height:calc(100dvh - 28px);padding:31px 20px max(22px,env(safe-area-inset-bottom));border-radius:27px 27px 0 0}
+  #recommendations-dialog:before{content:'';position:absolute;top:10px;left:calc(50% - 19px);width:38px;height:5px;border-radius:4px;background:#bcc3c9}
+  #recommendations-dialog h2{font-size:25px;margin-right:63px}
+  #recommendations-dialog>.close-button{top:24px;right:14px}
+  #recommendations-dialog .recommendations-list{margin-top:19px}
+  #recommendations-dialog .recommendation-card>img{aspect-ratio:1.7}
+  #recommendations-dialog .recommendation-body{padding:15px}
+  #recommendations-dialog .recommendation-location{display:none}
+  #recommendations-dialog .recommendation-title{font-size:17px;margin-bottom:10px}
+  #recommendations-dialog .recommendation-price{font-size:27px;margin-bottom:13px}
+  #recommendations-dialog .recommendation-facts{font-size:13px;gap:6px 10px}
+}
+@media(max-height:650px) and (max-width:760px){#recommendations-dialog{padding-top:30px}#recommendations-dialog h2{font-size:23px}#recommendations-dialog .recommendations-heading p{font-size:14px}#recommendations-dialog .recommendation-card>img{aspect-ratio:2.5}#recommendations-dialog .recommendations-list{margin-top:13px}.recommendations-continue{margin-top:10px}}
+@media(prefers-reduced-motion:reduce){.recommendation-card,.recommendations-continue{transition:none}.recommendation-card:hover,.recommendation-card:active,.recommendations-continue:hover{transform:none}}
+@media(prefers-reduced-transparency:reduce){#recommendations-dialog{background:#f8f9fb;backdrop-filter:none;-webkit-backdrop-filter:none}#recommendations-dialog::backdrop{backdrop-filter:none;-webkit-backdrop-filter:none}}
