@@ -27,12 +27,5 @@
   document.addEventListener('home:map-area',event=>{area=event.detail;update(!area);});
   const syncGeneralInquiry=()=>{if(!window.PropertyMessages?.general)return;const href='https://wa.me/5543988318811?text='+encodeURIComponent(window.PropertyMessages.general());for(const link of document.querySelectorAll('.home-contact-inquiry,a.whatsapp'))link.href=href;};
   syncGeneralInquiry();window.addEventListener('pageshow',syncGeneralInquiry);
-  const actions=document.querySelector('.home-contact-actions'),intro=document.querySelector('.home-intro');
-  if(actions&&intro){
-    const origin=document.createComment('home-contact-position'),desktop=matchMedia('(min-width:761px)');
-    actions.before(origin);
-    const placeActions=()=>desktop.matches?intro.append(actions):origin.after(actions);
-    desktop.addEventListener('change',placeActions);placeActions();
-  }
   update();
 })();

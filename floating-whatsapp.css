@@ -7,6 +7,17 @@
  .home-contact-actions .floating-whatsapp-button.is-compact:focus-visible,.mobile-actions .floating-whatsapp-button.is-compact:focus-visible{width:100%;padding:12px 15px;gap:9px;border-radius:17px;outline:3px solid #193b2a;outline-offset:3px}
  .floating-whatsapp-button.is-compact:focus-visible>.floating-whatsapp-label{max-width:280px;opacity:1}
 }
+@media(min-width:761px){
+ body.home-page .home-contact-actions{position:fixed;right:24px;bottom:24px;width:220px;margin:0;align-items:flex-end;z-index:8;pointer-events:none}
+ .home-contact-actions .home-contact-group{display:none}
+ .home-contact-actions .floating-whatsapp-button{display:flex;align-items:center;justify-content:center;flex:0 0 auto;align-self:flex-end;width:220px;min-width:54px;height:54px;min-height:54px;max-height:54px;box-sizing:border-box;padding:12px 17px;gap:9px;border-radius:17px;overflow:hidden;animation:none;pointer-events:auto;transition:width .55s cubic-bezier(.2,.8,.2,1),border-radius .55s ease,padding .55s ease,gap .55s ease,box-shadow .2s ease,background .2s ease}
+ .home-contact-actions .floating-whatsapp-button>svg{flex:0 0 26px;width:26px;height:26px}
+ .home-contact-actions .floating-whatsapp-label{display:block;min-width:0;max-width:170px;white-space:nowrap;overflow:hidden;opacity:1;transition:max-width .5s ease,opacity .22s ease}
+ .home-contact-actions .floating-whatsapp-button.is-compact{width:54px;padding:0;gap:0;border-radius:50%;box-shadow:0 5px 18px #106c3f35}
+ .home-contact-actions .floating-whatsapp-button.is-compact>.floating-whatsapp-label{max-width:0;opacity:0}
+ .home-contact-actions .floating-whatsapp-button.is-compact:focus-visible{width:220px;padding:12px 17px;gap:9px;border-radius:17px;outline:3px solid #193b2a;outline-offset:3px}
+ .home-contact-actions .floating-whatsapp-button.is-compact:focus-visible>.floating-whatsapp-label{max-width:170px;opacity:1}
+}
 @media(prefers-reduced-motion:reduce){
  .home-contact-actions .floating-whatsapp-button,.mobile-actions .floating-whatsapp-button,.floating-whatsapp-button>.floating-whatsapp-label{transition:none}
 }

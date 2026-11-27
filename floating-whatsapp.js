@@ -12,9 +12,10 @@
   function schedule(){
     clearTimeout(timer);
     for(const link of links)link.classList.remove('is-compact');
-    if(!mobile.matches||document.hidden)return;
+    if(document.hidden)return;
+    const animated=links.filter(link=>mobile.matches||link.matches('.home-contact-inquiry'));
     // Give the visitor time to read, then release the space to the left of the button.
-    timer=setTimeout(()=>{for(const link of links)if(!link.matches(':focus-visible'))link.classList.add('is-compact');},4500);
+    timer=setTimeout(()=>{for(const link of animated)if(!link.matches(':focus-visible'))link.classList.add('is-compact');},4500);
   }
   mobile.addEventListener('change',schedule);
   window.addEventListener('pageshow',schedule);
