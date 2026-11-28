@@ -7,6 +7,7 @@
 .specs-horizontal .fact-icon{flex-basis:17px;width:17px;height:20px;color:#59616b}
 body .listing-layout .specs.specs-horizontal>.summary-extras{display:grid;grid-column:1/-1;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:5px;padding-top:13px;border-top:1px solid #dce0e5}
 .summary-extras>.supplementary-fact{min-width:0}
+.summary-extras>.supplementary-fact:only-child{grid-column:1/-1}
 .summary-extras>.supplementary-fact+.supplementary-fact{padding-left:16px;border-left:1px solid #dce0e5}
 .listing-layout .specs.specs-horizontal>.summary-fact,.summary-extras>.supplementary-fact{text-align:center}
 .specs-horizontal .metric-value{justify-content:center}
