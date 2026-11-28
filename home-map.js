@@ -53,9 +53,8 @@
   function propertyCard(id){
     const p=catalog.get(id),place=locations.get(id);
     const title=p.id.startsWith('casa-terra')?'Casa Terra Bonita':p.id.startsWith('casa-jardim')?'Casa Jardim Itatiaia 2':p.title;
-    const fact=(paths,text)=>`<span class="map-fact"><svg viewBox="0 0 24 24" aria-hidden="true">${paths}</svg><span>${text}</span></span>`;
-    const facts=fullscreen.open?fact('<path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5M8 16l8-8m-5 0h5v5"/>',number.format(p.area)+' m²')+fact('<path d="M3 18V7m0 7h18v4M3 11h18v7M6 11V7h5v4m2 0V7h5v4M3 18v3m18-3v3"/>',p.bedrooms+' '+(p.bedrooms===1?'quarto':'quartos'))+fact('<path d="m5 8 2-5h10l2 5m-14 0h14l2 4v7H3v-7l2-4Zm0 11v2m14-2v2M6 13h2m8 0h2"/>',p.parking+' '+(p.parking===1?'vaga':'vagas')):`${number.format(p.area)} m² · ${p.bedrooms} quartos · ${p.parking} ${p.parking===1?'vaga':'vagas'}`;
-    return `<a class="map-property-card" href="${escape(p.url)}"><img src="${escape(p.image)}" alt="${escape(p.imageAlt)}" width="128" height="100" draggable="false"><span class="map-property-copy"><strong>${escape(title)}${p.occupied?' · locado':''}</strong><span>${escape(p.neighborhood)}</span><span class="map-property-facts">${facts}</span><b>${money(p.price)}</b></span><span class="map-property-open">Ver imóvel</span></a>${place.approximate?'<p class="map-approximate">Localização aproximada na rua. Número sob consulta.</p>':''}`;
+    const facts=window.PropertyFacts.inline(p),street=window.PropertyFacts.street(p);
+    return `<a class="map-property-card" href="${escape(p.url)}"><img src="${escape(p.image)}" alt="${escape(p.imageAlt)}" width="128" height="100" draggable="false"><span class="map-property-copy"><strong>${escape(title)}${p.occupied?' · locado':''}</strong><span class="map-property-street property-card-street">${street}</span><span>${escape(p.neighborhood)}</span><span class="map-property-facts property-card-facts">${facts}</span><b>${money(p.price)}</b></span><span class="map-property-open">Ver imóvel</span></a>${place.approximate?'<p class="map-approximate">Localização aproximada na rua. Número sob consulta.</p>':''}`;
   }
   function centerProperty(id){
     const place=locations.get(id);if(!map||!place)return;

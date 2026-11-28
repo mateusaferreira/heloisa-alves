@@ -15,7 +15,11 @@ window.PROPERTY_CATALOG = [
     "occupied": null,
     "image": "/assets/imoveis/casa-terra-bonita-242m/foto-01.webp",
     "imageAlt": "Ambiente de Casa reformada com espaço gourmet no Terra Bonita",
-    "publishedAt": "2026-11-27T14:27:56-03:00"
+    "publishedAt": "2026-11-27T14:27:56-03:00",
+    "bathrooms": 4,
+    "suites": 1,
+    "areaLabel": "Área construída",
+    "streetName": "Rua José Roque Salton"
   },
   {
     "id": "casa-jardim-itatiaia-176m",
@@ -32,7 +36,11 @@ window.PROPERTY_CATALOG = [
     "occupied": null,
     "image": "/assets/imoveis/casa-jardim-itatiaia-176m/foto-01.webp",
     "imageAlt": "Ambiente de Casa com jardim no Jardim Itatiaia 2",
-    "publishedAt": "2026-11-27T14:27:56-03:00"
+    "publishedAt": "2026-11-27T14:27:56-03:00",
+    "bathrooms": 2,
+    "suites": 1,
+    "areaLabel": "Área construída",
+    "streetName": "Rua Francisco Marcelino da Silva"
   },
   {
     "id": "pateo-aurora-50m",
@@ -49,7 +57,11 @@ window.PROPERTY_CATALOG = [
     "occupied": null,
     "image": "/assets/imoveis/pateo-aurora-50m/foto-01.webp",
     "imageAlt": "Ambiente de Pateo Aurora",
-    "publishedAt": "2026-11-27T14:27:56-03:00"
+    "publishedAt": "2026-11-27T14:27:56-03:00",
+    "bathrooms": 1,
+    "suites": 0,
+    "areaLabel": "Área útil",
+    "streetName": "Avenida José Gabriel de Oliveira"
   },
   {
     "id": "maison-provence-120m",
@@ -66,7 +78,11 @@ window.PROPERTY_CATALOG = [
     "occupied": null,
     "image": "/assets/imoveis/maison-provence-120m/foto-01.webp",
     "imageAlt": "Ambiente de Maison Provence",
-    "publishedAt": "2026-11-27T14:27:56-03:00"
+    "publishedAt": "2026-11-27T14:27:56-03:00",
+    "bathrooms": 4,
+    "suites": 1,
+    "areaLabel": "Área privativa",
+    "streetName": "Rua João Huss"
   },
   {
     "id": "maison-provence-para-investir",
@@ -83,7 +99,11 @@ window.PROPERTY_CATALOG = [
     "occupied": true,
     "image": "/assets/imoveis/maison-provence-para-investir/foto-01.webp",
     "imageAlt": "Ambiente de Maison Provence",
-    "publishedAt": "2026-11-27T14:27:56-03:00"
+    "publishedAt": "2026-11-27T14:27:56-03:00",
+    "bathrooms": 4,
+    "suites": 1,
+    "areaLabel": "Área privativa",
+    "streetName": "Rua João Huss"
   },
   {
     "id": "maison-privilege-133m",
@@ -100,7 +120,11 @@ window.PROPERTY_CATALOG = [
     "occupied": null,
     "image": "/assets/imoveis/maison-privilege-133m/foto-01.webp",
     "imageAlt": "Ambiente de Maison Privilège",
-    "publishedAt": "2026-11-27T14:27:56-03:00"
+    "publishedAt": "2026-11-27T14:27:56-03:00",
+    "bathrooms": 4,
+    "suites": 3,
+    "areaLabel": "Área privativa",
+    "streetName": "Rua Eurico Hummig"
   },
   {
     "id": "maison-giverny",
@@ -117,6 +141,10 @@ window.PROPERTY_CATALOG = [
     "occupied": null,
     "image": "/assets/photo-2.jpg",
     "imageAlt": "Sala ampla do Maison Giverny",
-    "publishedAt": "2026-11-26T00:40:01-03:00"
+    "publishedAt": "2026-11-26T00:40:01-03:00",
+    "bathrooms": 3,
+    "suites": 1,
+    "areaLabel": "Área privativa",
+    "streetName": "Rua Eurico Hummig"
   }
 ];

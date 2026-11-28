@@ -38,15 +38,11 @@
     const body = element('div', 'recommendation-body');
     const title = element('h3', 'recommendation-title', property.title);
     const place = element('p', 'recommendation-location');
-    place.append(icon('pin', '0 0 24 24'), element('span', '', [property.neighborhood, property.city].filter(Boolean).join(' · ')));
-    const facts = element('p', 'recommendation-facts');
-    for (const [name, value, label] of [['area', property.area, 'm²'], ['bed', property.bedrooms, property.bedrooms === 1 ? 'quarto' : 'quartos'], ['car', property.parking, property.parking === 1 ? 'vaga' : 'vagas']]) {
-      if (!Number.isFinite(value) || value < 0) continue;
-      const fact = element('span');
-      fact.append(icon(name), element('span', '', value + ' ' + label));
-      facts.append(fact);
-    }
-    body.append(title, place);
+    place.textContent=[property.neighborhood, property.city].filter(Boolean).join(' · ');
+    const street=element('p','recommendation-street property-card-street');street.innerHTML=window.PropertyFacts.street(property);
+    const facts = element('p', 'recommendation-facts property-card-facts');
+    facts.innerHTML=window.PropertyFacts.inline(property);
+    body.append(title, street, place);
     if(property.occupied===true)body.append(element('p','recommendation-occupied','Imóvel locado'));
     body.append(facts, element('p', 'recommendation-price', currency.format(property.price)), element('span', 'recommendation-cta', 'Ver imóvel'));
     link.append(photo, body);
