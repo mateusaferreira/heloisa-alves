@@ -1,4 +1,4 @@
-:root{--accent:#363b42;--accent-hover:#25292e;--accent-soft:#eef0f3;--green:var(--accent);--whatsapp-green:#14834d}
+:root{--accent:#363b42;--accent-hover:#25292e;--accent-soft:#eef0f3;--green:var(--accent);--whatsapp-green:#14834d;--button-radius:14px;--filter-radius:999px}
 .whatsapp,.group-link,.home-contact-button,.home-group-button,.site-menu-contact,.site-social-whatsapp,.home-whatsapp{--green:var(--whatsapp-green)}
 .home-search:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px #363b4214}
 body.home-page .home-filters button[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:#fff}
@@ -9,7 +9,9 @@ body.home-page .home-filters button[aria-pressed=true]:hover{background:var(--ac
 .site-menu-toggle:hover,.site-menu-close:hover,.site-menu-card:hover,.site-social-link:not(.site-social-whatsapp):hover{background:#f1f3f5}
 .site-menu-card:hover{border-color:#c5ccd3}
 .site-menu-social>a,.site-social-link:not(.site-social-whatsapp){color:var(--accent)}
-.recommendations-browse,.recommendation-cta,.recommendations-continue{color:var(--accent)}
+.recommendations-browse,.recommendations-continue{color:var(--accent)}
+body .recommendation-cta,body #recommendations-dialog .recommendation-cta{background:#363b42;color:#fff;border-radius:var(--button-radius);transition:background .2s}
+body .recommendation-card:hover .recommendation-cta,body .recommendation-card:focus-visible .recommendation-cta,body #recommendations-dialog .recommendation-card:hover .recommendation-cta,body #recommendations-dialog .recommendation-card:focus-visible .recommendation-cta{background:#25292e;color:#fff}
 .recommendations-nav{color:var(--accent)}
 .occupied-note{background:#f4f5f6;border-color:#dfe3e7;color:#4d565f}
 .amenity-check{stroke:var(--whatsapp-green)}
@@ -33,6 +35,10 @@ body.home-page .home-filters button[aria-pressed=true]:hover{background:var(--ac
 .video-progress::-webkit-slider-thumb{background:#e1e5e9;box-shadow:0 0 0 4px #ffffff18}
 .video-progress::-moz-range-thumb{background:#e1e5e9}
 .site-header-nav{display:none}
+body .button,body .listing-layout .button,body .mobile-actions .button,body .home-contact-button,body .home-group-button,body .site-menu-contact,body .recommendations-map-button,body .home-map-open,body .home-sort-control,body .home-map-panel .map-property-open,body .map-filters-footer button,body .gallery-grid .all-photos,body .recommendations-continue{border-radius:var(--button-radius)}
+body .home-browse-filter,body .map-filter-trigger,body .photo-filters button{border-radius:var(--filter-radius)}
+body .home-contact-actions .floating-whatsapp-button:not(.is-compact),body .mobile-actions .floating-whatsapp-button:not(.is-compact),body .home-contact-actions .floating-whatsapp-button.is-compact:focus-visible,body .mobile-actions .floating-whatsapp-button.is-compact:focus-visible{border-radius:var(--button-radius)}
+@media(prefers-reduced-motion:reduce){body .recommendation-cta{transition:none}}
 body .mobile-actions .button.make-offer,body .contact-card .button.make-offer{background:#101112;border-color:#101112;color:#fff;box-shadow:0 4px 16px #10111226}
 body .mobile-actions .button.make-offer:hover,body .contact-card .button.make-offer:hover{background:#242526;border-color:#242526;color:#fff}
 .about .about-highlights{padding-left:21px;margin:15px 0 22px;color:var(--muted);font-size:16px;line-height:1.7}
