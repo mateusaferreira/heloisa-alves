@@ -1,4 +1,4 @@
-// Catálogo de imóveis disponíveis.
+// Catálogo de imóveis disponíveis. publishedAt registra a primeira publicação neste site.
 window.PROPERTY_CATALOG = [
   {
     "id": "casa-terra-bonita-242m",
@@ -14,7 +14,8 @@ window.PROPERTY_CATALOG = [
     "parking": 4,
     "occupied": null,
     "image": "/assets/imoveis/casa-terra-bonita-242m/foto-01.webp",
-    "imageAlt": "Ambiente de Casa reformada com espaço gourmet no Terra Bonita"
+    "imageAlt": "Ambiente de Casa reformada com espaço gourmet no Terra Bonita",
+    "publishedAt": "2026-11-27T14:27:56-03:00"
   },
   {
     "id": "casa-jardim-itatiaia-176m",
@@ -30,7 +31,8 @@ window.PROPERTY_CATALOG = [
     "parking": 4,
     "occupied": null,
     "image": "/assets/imoveis/casa-jardim-itatiaia-176m/foto-01.webp",
-    "imageAlt": "Ambiente de Casa com jardim no Jardim Itatiaia 2"
+    "imageAlt": "Ambiente de Casa com jardim no Jardim Itatiaia 2",
+    "publishedAt": "2026-11-27T14:27:56-03:00"
   },
   {
     "id": "pateo-aurora-50m",
@@ -46,7 +48,8 @@ window.PROPERTY_CATALOG = [
     "parking": 1,
     "occupied": null,
     "image": "/assets/imoveis/pateo-aurora-50m/foto-01.webp",
-    "imageAlt": "Ambiente de Pateo Aurora"
+    "imageAlt": "Ambiente de Pateo Aurora",
+    "publishedAt": "2026-11-27T14:27:56-03:00"
   },
   {
     "id": "maison-provence-120m",
@@ -62,7 +65,8 @@ window.PROPERTY_CATALOG = [
     "parking": 2,
     "occupied": null,
     "image": "/assets/imoveis/maison-provence-120m/foto-01.webp",
-    "imageAlt": "Ambiente de Maison Provence"
+    "imageAlt": "Ambiente de Maison Provence",
+    "publishedAt": "2026-11-27T14:27:56-03:00"
   },
   {
     "id": "maison-provence-para-investir",
@@ -78,7 +82,8 @@ window.PROPERTY_CATALOG = [
     "parking": 2,
     "occupied": true,
     "image": "/assets/imoveis/maison-provence-para-investir/foto-01.webp",
-    "imageAlt": "Ambiente de Maison Provence"
+    "imageAlt": "Ambiente de Maison Provence",
+    "publishedAt": "2026-11-27T14:27:56-03:00"
   },
   {
     "id": "maison-privilege-133m",
@@ -94,7 +99,8 @@ window.PROPERTY_CATALOG = [
     "parking": 2,
     "occupied": null,
     "image": "/assets/imoveis/maison-privilege-133m/foto-01.webp",
-    "imageAlt": "Ambiente de Maison Privilège"
+    "imageAlt": "Ambiente de Maison Privilège",
+    "publishedAt": "2026-11-27T14:27:56-03:00"
   },
   {
     "id": "maison-giverny",
@@ -110,6 +116,7 @@ window.PROPERTY_CATALOG = [
     "parking": 2,
     "occupied": null,
     "image": "/assets/photo-2.jpg",
-    "imageAlt": "Sala ampla do Maison Giverny"
+    "imageAlt": "Sala ampla do Maison Giverny",
+    "publishedAt": "2026-11-26T00:40:01-03:00"
   }
 ];

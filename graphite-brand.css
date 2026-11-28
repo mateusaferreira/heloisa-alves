@@ -35,6 +35,11 @@ body .recommendation-card:hover .recommendation-cta,body .recommendation-card:fo
 .video-progress::-webkit-slider-thumb{background:#e1e5e9;box-shadow:0 0 0 4px #ffffff18}
 .video-progress::-moz-range-thumb{background:#e1e5e9}
 .site-header-nav{display:none}
+body .site-footer{background:#08090b;border-top-color:#181b20;color:#bdc3cb}
+body .site-footer-brand img{filter:grayscale(1) contrast(1.4) brightness(1.25);mix-blend-mode:screen}
+body .site-footer .site-social-link{background:#ffffff08;border-color:#ffffff35;color:#fff}
+body .site-footer .site-social-link:hover{background:#ffffff1c;color:#fff}
+@media(max-width:760px){body.site-has-floating{padding-bottom:0}body.site-has-floating .site-footer{padding-bottom:calc(130px + env(safe-area-inset-bottom))}}
 body .button,body .listing-layout .button,body .mobile-actions .button,body .home-contact-button,body .home-group-button,body .site-menu-contact,body .recommendations-map-button,body .home-map-open,body .home-sort-control,body .home-map-panel .map-property-open,body .map-filters-footer button,body .gallery-grid .all-photos,body .recommendations-continue{border-radius:var(--button-radius)}
 body .home-browse-filter,body .map-filter-trigger,body .photo-filters button{border-radius:var(--filter-radius)}
 body .home-contact-actions .floating-whatsapp-button:not(.is-compact),body .mobile-actions .floating-whatsapp-button:not(.is-compact),body .home-contact-actions .floating-whatsapp-button.is-compact:focus-visible,body .mobile-actions .floating-whatsapp-button.is-compact:focus-visible{border-radius:var(--button-radius)}
