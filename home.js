@@ -9,6 +9,14 @@
   const places=new Map((window.PROPERTY_MAP_LOCATIONS||[]).map(p=>[p.id,p]));
   const properties=new Map((window.PROPERTY_CATALOG||[]).map(p=>[p.id,p])),model=window.PropertyFilters;
   const idOf=card=>card.querySelector('a').getAttribute('href').split('/').filter(Boolean).pop();
+  const list=document.querySelector('#home-properties'),sort=document.querySelector('#property-sort'),originalOrder=new Map(cards.map((card,index)=>[card,index]));
+  sort?.addEventListener('change',()=>{
+    const direction=sort.value==='price-desc'?-1:1,key=sort.value==='area-desc'?'area':'price';
+    cards.sort((a,b)=>sort.value==='featured'?originalOrder.get(a)-originalOrder.get(b):(properties.get(idOf(a))[key]-properties.get(idOf(b))[key])*(sort.value==='area-desc'?-1:direction)||originalOrder.get(a)-originalOrder.get(b));
+    list.append(...cards);
+    document.querySelector('.home-sort-label').textContent=sort.value==='featured'?'Ordenar por':sort.selectedOptions[0].textContent;
+    update(false);
+  });
   function update(resetView=true){
     if(model)kind=model.get().type;
     const terms=normalize(input.value).split(/\s+/).filter(Boolean);let count=0;const ids=[];

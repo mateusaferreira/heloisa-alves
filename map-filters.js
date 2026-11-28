@@ -9,15 +9,16 @@
  const toolbar=document.createElement('div');toolbar.className='map-filter-toolbar';toolbar.setAttribute('aria-label','Filtros dos imóveis');
  toolbar.innerHTML=Object.keys(titles).map(key=>'<button type="button" class="map-filter-trigger" data-map-filter="'+key+'" aria-haspopup="dialog" aria-expanded="false">'+icons[key]+'<span></span>'+icon('<path d="m7 10 5 5 5-5"/>')+'</button>').join('')+'<button type="button" class="map-filter-clear" hidden>Limpar filtros</button>';
  const clear=toolbar.querySelector('.map-filter-clear'),triggers=[...toolbar.querySelectorAll('[data-map-filter]')];
- const compactTrigger=document.createElement('button');compactTrigger.type='button';compactTrigger.className='map-filter-compact';compactTrigger.hidden=true;compactTrigger.dataset.mapFilter='price';compactTrigger.setAttribute('aria-haspopup','dialog');compactTrigger.setAttribute('aria-expanded','false');
+ const compactTrigger=document.createElement('button');compactTrigger.type='button';compactTrigger.className='map-filter-compact';compactTrigger.hidden=true;compactTrigger.dataset.mapFilter=propertyMode?'price':'all';compactTrigger.setAttribute('aria-haspopup','dialog');compactTrigger.setAttribute('aria-expanded','false');
  compactTrigger.innerHTML=icon('<path d="M3 6h18M3 12h18M3 18h18"/><circle cx="8" cy="6" r="2"/><circle cx="16" cy="12" r="2"/><circle cx="8" cy="18" r="2"/>')+'<span>Filtros</span><span class="map-filter-badge" aria-hidden="true" hidden></span>';
  const summary=document.createElement('p');summary.className='map-filter-summary';summary.hidden=true;summary.setAttribute('aria-live','polite');
  panel.querySelector('.map-back-to-list').after(compactTrigger,summary);
- const openers=[...triggers,compactTrigger],badge=compactTrigger.querySelector('.map-filter-badge');
+ const browseTrigger=document.querySelector('.home-browse-filter'),browseBadge=browseTrigger?.querySelector('.browse-filter-badge');
+ const openers=[...triggers,compactTrigger,...(browseTrigger?[browseTrigger]:[])],badge=compactTrigger.querySelector('.map-filter-badge');
  const search=document.querySelector('.home-search');let searchRow;
  if(search){searchRow=document.createElement('div');searchRow.className='home-search-with-filters';search.before(searchRow);searchRow.append(search);}
  let mapActive=false,opener,field='price',draft,ceiling;
- const dialog=document.createElement('dialog');dialog.className='map-filters-dialog';dialog.setAttribute('aria-labelledby','map-filters-title');
+ const dialog=document.createElement('dialog');dialog.className='map-filters-dialog';dialog.id='property-filters-dialog';dialog.setAttribute('aria-labelledby','map-filters-title');
  const radios=(name,options)=>options.map(([value,label])=>'<label class="map-filter-choice"><input type="radio" name="'+name+'" value="'+value+'"><span>'+label+'</span></label>').join('');
  dialog.innerHTML='<form novalidate><div class="map-filters-heading"><h2 id="map-filters-title">Filtrar imóveis</h2><button type="button" class="map-filters-close" aria-label="Fechar filtros">'+icon('<path d="m6 6 12 12M18 6 6 18"/>')+'</button></div><div class="map-filters-fields"><fieldset data-filter-section="price"><legend>Valor do imóvel</legend><div class="map-price-inputs"><label>Mínimo<input name="minPrice" inputmode="numeric" autocomplete="off" placeholder="Sem mínimo" aria-label="Valor mínimo"></label><label>Máximo<input name="maxPrice" inputmode="numeric" autocomplete="off" placeholder="Sem máximo" aria-label="Valor máximo" aria-describedby="map-filter-error"></label></div><div class="map-price-ranges"><input type="range" name="minRange" min="0" step="25000" aria-label="Ajustar valor mínimo"><input type="range" name="maxRange" min="0" step="25000" aria-label="Ajustar valor máximo"></div></fieldset><fieldset data-filter-section="bedrooms"><legend>Quartos</legend><div class="map-filter-segments">'+radios('bedrooms',[[0,'Qualquer'],[1,'1+'],[2,'2+'],[3,'3+'],[4,'4+']])+'</div></fieldset><fieldset data-filter-section="type"><legend>Tipo de imóvel</legend><div class="map-filter-segments map-filter-types">'+radios('type',[['todos','Todos'],['apartamento','Apartamentos'],['casa','Casas']])+'</div></fieldset><p class="map-filter-error" id="map-filter-error" role="status" hidden></p></div><div class="map-filters-footer"><button type="button" class="map-filters-reset">Limpar</button><button type="submit" class="map-filters-apply">Aplicar</button></div></form>';
  document.body.append(dialog);
@@ -28,7 +29,7 @@
  function placeToolbar(){
   const compactMap=mobile.matches&&mapActive,filtered=hasFilters(model.get());
   if((mobile.matches&&mapActive)||propertyMode)panel.querySelector('.map-canvas-wrap').prepend(toolbar);else searchRow?.append(toolbar);
-  toolbar.hidden=compactMap||(propertyMode&&!mapActive);
+  toolbar.hidden=!propertyMode||compactMap||!mapActive;
   compactTrigger.hidden=!compactMap;summary.hidden=!compactMap||!filtered;panel.classList.toggle('has-filter-summary',compactMap&&filtered);
   searchRow?.classList.toggle('has-filters-toolbar',toolbar.parentNode===searchRow&&!toolbar.hidden);
   document.body.classList.toggle('has-browse-filters',!propertyMode);
@@ -39,6 +40,7 @@
   for(const button of triggers){const key=button.dataset.mapFilter;button.querySelector('span').textContent=mobile.matches&&key==='price'?'Valor':labels[key];button.setAttribute('aria-label',titles[key]+': '+labels[key]);button.classList.toggle('is-filtered',key==='price'?value.minPrice!==null||value.maxPrice!==null:key==='bedrooms'?value.bedrooms>0:value.type!=='todos');}
   const parts=[];if(value.minPrice!==null||value.maxPrice!==null)parts.push(price);if(value.bedrooms)parts.push(labels.bedrooms);if(value.type!=='todos')parts.push(labels.type);
   summary.textContent=parts.join(' · ');badge.textContent=String(parts.length);badge.hidden=!parts.length;compactTrigger.setAttribute('aria-label','Filtrar imóveis'+(parts.length?' ('+parts.length+' filtros ativos)':''));
+  if(browseTrigger){browseBadge.textContent=String(parts.length);browseBadge.hidden=!parts.length;browseTrigger.classList.toggle('is-filtered',!!parts.length);browseTrigger.setAttribute('aria-label','Filtros'+(parts.length?' ('+parts.length+' ativos)':''));}
   clear.hidden=!hasFilters(value);placeToolbar();
  }
  const parse=value=>{const digits=value.replace(/[^\d,]/g,'').split(',')[0];return digits?Number(digits):null;};
@@ -46,18 +48,19 @@
  function showDraft(){min.value=draft.minPrice===null?'':currency.format(draft.minPrice);max.value=draft.maxPrice===null?'':currency.format(draft.maxPrice);for(const input of form.querySelectorAll('input[type=radio]'))input.checked=String(draft[input.name])===input.value;syncRanges();updatePreview();}
  function readDraft(){draft={minPrice:parse(min.value),maxPrice:parse(max.value),bedrooms:Number(form.elements.bedrooms.value),type:form.elements.type.value};return draft;}
  function updatePreview(){
-  try{model.normalize(draft);error.hidden=true;apply.disabled=false;const count=countMatches(draft);apply.textContent=mobile.matches?'Ver '+count+' '+(count===1?'imóvel':'imóveis'):'Aplicar';max.removeAttribute('aria-invalid');}
+  try{model.normalize(draft);error.hidden=true;apply.disabled=false;const count=countMatches(draft);apply.textContent=mobile.matches||field==='all'?'Ver '+count+' '+(count===1?'imóvel':'imóveis'):'Aplicar';max.removeAttribute('aria-invalid');}
   catch(exception){error.textContent=exception.message;error.hidden=false;apply.disabled=true;max.setAttribute('aria-invalid','true');}
  }
  function layoutDialog(){
-  if(mobile.matches&&mapActive)opener=compactTrigger;else if(!mobile.matches&&opener===compactTrigger)opener=triggers.find(button=>button.dataset.mapFilter===field);
+  if(mobile.matches&&mapActive)opener=compactTrigger;else if(!mobile.matches&&opener===compactTrigger)opener=propertyMode?triggers.find(button=>button.dataset.mapFilter===field):browseTrigger;
   dialog.classList.toggle('is-mobile',mobile.matches);
-  dialog.querySelector('h2').textContent=mobile.matches?'Filtrar imóveis':titles[field];
-  for(const section of dialog.querySelectorAll('[data-filter-section]'))section.hidden=!mobile.matches&&section.dataset.filterSection!==field;
-  if(!mobile.matches&&opener){const box=opener.getBoundingClientRect(),width=field==='price'?360:field==='bedrooms'?380:360;dialog.style.width=Math.min(width,innerWidth-32)+'px';dialog.style.left=Math.max(16,Math.min(box.left,innerWidth-width-16))+'px';dialog.style.top=Math.min(box.bottom+9,innerHeight-310)+'px';}else{dialog.style.removeProperty('width');dialog.style.removeProperty('left');dialog.style.removeProperty('top');}
+  dialog.classList.toggle('is-unified',field==='all');
+  dialog.querySelector('h2').textContent=mobile.matches||field==='all'?'Filtrar imóveis':titles[field];
+  for(const section of dialog.querySelectorAll('[data-filter-section]'))section.hidden=!mobile.matches&&field!=='all'&&section.dataset.filterSection!==field;
+  if(!mobile.matches&&field!=='all'&&opener){const box=opener.getBoundingClientRect(),width=field==='price'?360:field==='bedrooms'?380:360;dialog.style.width=Math.min(width,innerWidth-32)+'px';dialog.style.left=Math.max(16,Math.min(box.left,innerWidth-width-16))+'px';dialog.style.top=Math.min(box.bottom+9,innerHeight-310)+'px';}else{dialog.style.removeProperty('width');dialog.style.removeProperty('left');dialog.style.removeProperty('top');}
   updatePreview();
  }
- function open(button){opener=button;field=button.dataset.mapFilter;draft=model.get();ceiling=0;showDraft();layoutDialog();for(const trigger of openers)trigger.setAttribute('aria-expanded',String(trigger===opener));dialog.showModal();const heading=dialog.querySelector('h2');heading.tabIndex=-1;const first=mobile.matches?heading:field==='price'?min:dialog.querySelector('[data-filter-section="'+field+'"] input:checked');first?.focus({preventScroll:true});}
+ function open(button){opener=button;field=button.dataset.mapFilter;draft=model.get();ceiling=0;showDraft();layoutDialog();for(const trigger of openers)trigger.setAttribute('aria-expanded',String(trigger===opener));dialog.showModal();const heading=dialog.querySelector('h2');heading.tabIndex=-1;const first=mobile.matches||field==='all'?heading:field==='price'?min:dialog.querySelector('[data-filter-section="'+field+'"] input:checked');first?.focus({preventScroll:true});}
  function close(){if(dialog.open)dialog.close();}
  for(const button of openers)button.addEventListener('click',()=>open(button));
  clear.addEventListener('click',()=>model.set(model.defaults));
@@ -69,7 +72,7 @@
  for(const input of form.querySelectorAll('input[type=radio]'))input.addEventListener('change',()=>{readDraft();updatePreview();});
  minRange.addEventListener('input',()=>{draft.minPrice=Math.min(Number(minRange.value),Number(maxRange.value))||null;showDraft();});
  maxRange.addEventListener('input',()=>{draft.maxPrice=Math.max(Number(maxRange.value),Number(minRange.value));showDraft();});
- dialog.querySelector('.map-filters-reset').onclick=()=>{if(mobile.matches)draft={...model.defaults};else if(field==='price')Object.assign(draft,{minPrice:null,maxPrice:null});else draft[field]=model.defaults[field];showDraft();};
+ dialog.querySelector('.map-filters-reset').onclick=()=>{if(mobile.matches||field==='all')draft={...model.defaults};else if(field==='price')Object.assign(draft,{minPrice:null,maxPrice:null});else draft[field]=model.defaults[field];showDraft();};
  form.addEventListener('submit',event=>{event.preventDefault();readDraft();try{model.normalize(draft);model.set(draft);close();}catch{updatePreview();max.focus();}});
  document.addEventListener('property:filters-changed',updateLabels);
  document.addEventListener('map:view-change',event=>{mapActive=event.detail.active;placeToolbar();});

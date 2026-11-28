@@ -172,11 +172,12 @@
     if(view!=='map')closeChildFilters();
     active=view==='map';shell?.classList.toggle('has-map',active);panel.hidden=!active;if(!active&&popup)map?.closePopup(popup);
     for(const button of viewButtons)button.setAttribute('aria-pressed',String(button.dataset.homeView===view));
+    if(!propertyMode)for(const button of viewButtons){button.setAttribute('aria-expanded',String(active));button.querySelector('span').textContent=active&&!mobile.matches?'Fechar mapa':'Abrir mapa';}
     syncFullscreen();
     document.dispatchEvent(new CustomEvent('map:view-change',{detail:{active,propertyMode}}));
     if(active)ensureMap();
   }
-  for(const button of viewButtons)button.onclick=()=>{setView(button.dataset.homeView);if(active&&!mobile.matches)(document.querySelector('.home-search-with-filters')||document.querySelector('.home-filter-row')).scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});};
+  for(const button of viewButtons)button.onclick=()=>{setView(!propertyMode&&active&&button.dataset.homeView==='map'?'list':button.dataset.homeView);if(active&&!mobile.matches)(document.querySelector('.home-search-with-filters')||document.querySelector('.home-filter-row')).scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});};
   document.addEventListener('home:results',event=>{visibleIds=event.detail.ids;allButton.hidden=!event.detail.area;render(event.detail.resetView);});
   areaButton.onclick=()=>{const b=map.getBounds();areaButton.hidden=true;if(propertyMode){propertyArea=b;visibleIds=propertyResults();allButton.hidden=false;render(false);}else document.dispatchEvent(new CustomEvent('home:map-area',{detail:{south:b.getSouth(),north:b.getNorth(),west:b.getWest(),east:b.getEast()}}));};
   allButton.onclick=()=>{if(propertyMode){propertyArea=null;visibleIds=propertyResults();allButton.hidden=true;render(true);}else document.dispatchEvent(new CustomEvent('home:map-area',{detail:null}));};
