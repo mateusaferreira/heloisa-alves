@@ -16,7 +16,7 @@
     {kind:'bath',label:'Banheiros',value:p.bathrooms,text:String(p.bathrooms),description:p.bathrooms+' '+(p.bathrooms===1?'banheiro':'banheiros')},
     {kind:'car',label:'Vagas',value:p.parking,text:String(p.parking),description:p.parking+' '+(p.parking===1?'vaga':'vagas')}
   ].filter(f=>Number.isFinite(f.value)&&f.value>=0);
-  const inline=p=>entries(p).map(f=>'<span class="property-fact" data-fact="'+f.kind+'" role="group" aria-label="'+escape(f.description)+'">'+icon(f.kind)+'<strong>'+escape(f.text)+'</strong></span>').join('');
+  const inline=p=>entries({...p,area:Math.trunc(p.area)}).map(f=>'<span class="property-fact" data-fact="'+f.kind+'" role="group" aria-label="'+escape(f.description)+'">'+icon(f.kind)+'<strong>'+escape(f.text)+'</strong></span>').join('');
   const summary=p=>{
     const primary=entries(p).map(f=>'<div class="summary-fact" title="'+escape(f.description)+'"><span class="metric-label">'+f.label+'</span><span class="metric-value">'+icon(f.kind)+'<strong>'+escape(f.text)+'</strong></span></div>').join('');
     const extra=(p.extraFacts||[]).filter(f=>f.label&&f.value).map(f=>'<div class="supplementary-fact"><span class="metric-label">'+escape(f.label)+'</span><span class="metric-value">'+icon(f.kind)+'<strong>'+escape(f.value)+'</strong></span></div>').join('');

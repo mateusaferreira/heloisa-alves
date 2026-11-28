@@ -78,3 +78,5 @@ body.home-map-fullscreen .mobile-actions{visibility:hidden}
 @media(prefers-reduced-motion:reduce){.home-map-dialog .map-back-to-list{transition:none}.home-map-dialog .map-back-to-list:hover{transform:none}}
 @media(prefers-reduced-motion:reduce){.recommendations-map-button{transition:none}.recommendations-map-button:hover{transform:none}}
 @media(max-width:760px){.map-canvas-wrap{height:300px;max-height:38svh;min-height:230px}.map-property-card{grid-template-columns:90px minmax(0,1fr)}.map-building-options{max-height:80px;overflow:auto}.map-building-options button{flex:1 1 auto}}
+
+.map-card-track{align-items:start}
