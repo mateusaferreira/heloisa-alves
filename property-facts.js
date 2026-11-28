@@ -18,5 +18,6 @@
   const inline=p=>entries(p).map(f=>'<span class="property-fact" data-fact="'+f.kind+'" role="group" aria-label="'+escape(f.description)+'">'+icon(f.kind)+'<strong>'+escape(f.text)+'</strong></span>').join('');
   const summary=p=>entries(p).map(f=>'<div class="summary-fact" title="'+escape(f.description)+'"><span class="metric-label">'+f.label+'</span><span class="metric-value">'+icon(f.kind)+'<strong>'+escape(f.text)+'</strong></span></div>').join('');
   const street=p=>p.streetName?icon('pin')+'<span>'+escape(p.streetName)+'</span>':'';
-  window.PropertyFacts=Object.freeze({inline,summary,street,icon});
+  const savings=p=>{const amount=p.marketReference-p.price;if(!Number.isFinite(amount)||amount<=0)return '';const value=amount%1000===0?number.format(amount/1000)+' mil':number.format(amount);return '<span class="property-savings-badge">R$ '+value+' abaixo do mercado</span>';};
+  window.PropertyFacts=Object.freeze({inline,summary,street,icon,savings});
 })();

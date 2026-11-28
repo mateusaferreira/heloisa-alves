@@ -53,8 +53,8 @@
   function propertyCard(id){
     const p=catalog.get(id),place=locations.get(id);
     const title=p.id.startsWith('casa-terra')?'Casa Terra Bonita':p.id.startsWith('casa-jardim')?'Casa Jardim Itatiaia 2':p.title;
-    const facts=window.PropertyFacts.inline(p),street=window.PropertyFacts.street(p);
-    return `<a class="map-property-card" href="${escape(p.url)}"><img src="${escape(p.image)}" alt="${escape(p.imageAlt)}" width="128" height="100" draggable="false"><span class="map-property-copy"><strong>${escape(title)}${p.occupied?' · locado':''}</strong><span class="map-property-street property-card-street">${street}</span><span>${escape(p.neighborhood)}</span><span class="map-property-facts property-card-facts">${facts}</span><b>${money(p.price)}</b></span><span class="map-property-open">Ver imóvel</span></a>${place.approximate?'<p class="map-approximate">Localização aproximada na rua. Número sob consulta.</p>':''}`;
+    const facts=window.PropertyFacts.inline(p),street=window.PropertyFacts.street(p),savings=window.PropertyFacts.savings(p);
+    return `<a class="map-property-card" href="${escape(p.url)}">${savings}<img src="${escape(p.image)}" alt="${escape(p.imageAlt)}" width="128" height="100" draggable="false"><span class="map-property-copy"><strong>${escape(title)}${p.occupied?' · locado':''}</strong><span class="map-property-street property-card-street">${street}</span><span>${escape(p.neighborhood)}</span><span class="map-property-facts property-card-facts">${facts}</span><b>${money(p.price)}</b></span><span class="map-property-open">Ver imóvel</span></a>${place.approximate?'<p class="map-approximate">Localização aproximada na rua. Número sob consulta.</p>':''}`;
   }
   function centerProperty(id){
     const place=locations.get(id);if(!map||!place)return;

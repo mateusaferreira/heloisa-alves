@@ -36,6 +36,7 @@
     photo.width = 600;
     photo.height = 400;
     const body = element('div', 'recommendation-body');
+    body.innerHTML=window.PropertyFacts.savings(property);
     const title = element('h3', 'recommendation-title', property.title);
     const place = element('p', 'recommendation-location');
     place.textContent=[property.neighborhood, property.city].filter(Boolean).join(' · ');

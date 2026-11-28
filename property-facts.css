@@ -6,6 +6,8 @@
 .fact-icon{display:block;flex:0 0 16px;width:16px;height:19px;fill:none;stroke:currentColor;stroke-width:1.55;stroke-linecap:round;stroke-linejoin:round}
 .specs-horizontal .fact-icon{flex-basis:17px;width:17px;height:20px;color:#59616b}
 body .listing-layout .price-comparison .market-savings{background:#ffd166;color:#352a14}
+.property-savings-badge{display:inline-flex;align-self:flex-start;width:max-content;max-width:100%;margin:0 0 10px;padding:6px 10px;border-radius:999px;background:#ffd166;color:#352a14;font:650 12px/1.35 var(--ui-font,var(--sans));letter-spacing:-.01em}
+body .map-property-card>.property-savings-badge{grid-column:1/-1;justify-self:start;margin:0;color:#352a14}
 .property-card-street{display:flex;align-items:flex-start;gap:5px;margin:0 0 5px;color:#606970;font-size:13px;line-height:1.4;overflow-wrap:anywhere}
 .property-card-street .fact-icon{width:14px;height:17px;flex-basis:14px}
 .property-card-street>span{min-width:0}

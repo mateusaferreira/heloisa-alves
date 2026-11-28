@@ -145,6 +145,7 @@ window.PROPERTY_CATALOG = [
     "bathrooms": 3,
     "suites": 1,
     "areaLabel": "Área privativa",
-    "streetName": "Rua Eurico Hummig"
+    "streetName": "Rua Eurico Hummig",
+    "marketReference": 1200000
   }
 ];
