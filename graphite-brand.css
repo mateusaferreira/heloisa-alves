@@ -57,3 +57,8 @@ body .mobile-actions .button.make-offer:hover,body .contact-card .button.make-of
 @media(min-width:1200px){
  .home-intro h1{font-size:43px}
 }
+@media(max-width:760px){
+ .home-intro{padding:22px 0 18px}
+ .home-intro h1{font-size:clamp(24px,7.2vw,30px);max-width:370px;line-height:1.12;margin-bottom:7px;text-wrap:balance}
+ .home-intro p{font-size:clamp(12px,3.45vw,15px);line-height:1.45;letter-spacing:-.02em;white-space:nowrap}
+}
