@@ -19,7 +19,19 @@ window.PROPERTY_CATALOG = [
     "bathrooms": 4,
     "suites": 1,
     "areaLabel": "Área construída",
-    "streetName": "Rua José Roque Salton"
+    "streetName": "Rua José Roque Salton",
+    "extraFacts": [
+      {
+        "kind": "bed",
+        "label": "Suítes",
+        "value": "1"
+      },
+      {
+        "kind": "total",
+        "label": "Terreno",
+        "value": "362 m²"
+      }
+    ]
   },
   {
     "id": "casa-jardim-itatiaia-176m",
@@ -40,7 +52,19 @@ window.PROPERTY_CATALOG = [
     "bathrooms": 2,
     "suites": 1,
     "areaLabel": "Área construída",
-    "streetName": "Rua Francisco Marcelino da Silva"
+    "streetName": "Rua Francisco Marcelino da Silva",
+    "extraFacts": [
+      {
+        "kind": "bed",
+        "label": "Suítes",
+        "value": "1"
+      },
+      {
+        "kind": "total",
+        "label": "Terreno",
+        "value": "508 m²"
+      }
+    ]
   },
   {
     "id": "pateo-aurora-50m",
@@ -61,7 +85,14 @@ window.PROPERTY_CATALOG = [
     "bathrooms": 1,
     "suites": 0,
     "areaLabel": "Área útil",
-    "streetName": "Avenida José Gabriel de Oliveira"
+    "streetName": "Avenida José Gabriel de Oliveira",
+    "extraFacts": [
+      {
+        "kind": "total",
+        "label": "Área total",
+        "value": "86,61 m²"
+      }
+    ]
   },
   {
     "id": "maison-provence-120m",
@@ -82,7 +113,19 @@ window.PROPERTY_CATALOG = [
     "bathrooms": 4,
     "suites": 1,
     "areaLabel": "Área privativa",
-    "streetName": "Rua João Huss"
+    "streetName": "Rua João Huss",
+    "extraFacts": [
+      {
+        "kind": "bed",
+        "label": "Suítes",
+        "value": "1"
+      },
+      {
+        "kind": "total",
+        "label": "Área total",
+        "value": "181 m²"
+      }
+    ]
   },
   {
     "id": "maison-provence-para-investir",
@@ -103,7 +146,19 @@ window.PROPERTY_CATALOG = [
     "bathrooms": 4,
     "suites": 1,
     "areaLabel": "Área privativa",
-    "streetName": "Rua João Huss"
+    "streetName": "Rua João Huss",
+    "extraFacts": [
+      {
+        "kind": "bed",
+        "label": "Suítes",
+        "value": "1"
+      },
+      {
+        "kind": "total",
+        "label": "Área total",
+        "value": "181 m²"
+      }
+    ]
   },
   {
     "id": "maison-privilege-133m",
@@ -124,7 +179,19 @@ window.PROPERTY_CATALOG = [
     "bathrooms": 4,
     "suites": 3,
     "areaLabel": "Área privativa",
-    "streetName": "Rua Eurico Hummig"
+    "streetName": "Rua Eurico Hummig",
+    "extraFacts": [
+      {
+        "kind": "bed",
+        "label": "Suítes",
+        "value": "3"
+      },
+      {
+        "kind": "total",
+        "label": "Área total",
+        "value": "216 m²"
+      }
+    ]
   },
   {
     "id": "maison-giverny",
@@ -146,6 +213,13 @@ window.PROPERTY_CATALOG = [
     "suites": 1,
     "areaLabel": "Área privativa",
     "streetName": "Rua Eurico Hummig",
-    "marketReference": 1200000
+    "marketReference": 1200000,
+    "extraFacts": [
+      {
+        "kind": "bed",
+        "label": "Suítes",
+        "value": "1"
+      }
+    ]
   }
 ];

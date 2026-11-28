@@ -1,10 +1,15 @@
-.listing-layout .specs.specs-horizontal{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(0,.9fr) minmax(0,1.05fr) minmax(0,.7fr);gap:10px;padding:15px 16px;border:0;border-radius:14px;background:#f0f1f4;box-shadow:none;font-family:var(--ui-font,var(--sans))}
+.listing-layout .specs.specs-horizontal{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;padding:15px 16px;border:0;border-radius:14px;background:#f0f1f4;box-shadow:none;font-family:var(--ui-font,var(--sans))}
 .listing-layout .specs.specs-horizontal>div{display:block;min-height:0;min-width:0;padding:0;border:0;text-align:left;background:none;border-radius:0}
 .specs-horizontal .metric-label{display:block;margin-bottom:6px;font-size:14px;line-height:1.3;color:#69727d;white-space:nowrap;letter-spacing:-.015em}
 .specs-horizontal .metric-value{display:flex;align-items:center;gap:6px;min-width:0;color:#363b42;white-space:nowrap}
 .listing-layout .specs-horizontal .metric-value strong{display:inline;margin:0;font-size:19px;line-height:1.4;font-weight:650;letter-spacing:-.025em}
 .fact-icon{display:block;flex:0 0 16px;width:16px;height:19px;fill:none;stroke:currentColor;stroke-width:1.55;stroke-linecap:round;stroke-linejoin:round}
 .specs-horizontal .fact-icon{flex-basis:17px;width:17px;height:20px;color:#59616b}
+body .listing-layout .specs.specs-horizontal>.summary-extras{display:grid;grid-column:1/-1;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:5px;padding-top:13px;border-top:1px solid #dce0e5}
+.summary-extras>.supplementary-fact{min-width:0}
+.summary-extras>.supplementary-fact+.supplementary-fact{padding-left:16px;border-left:1px solid #dce0e5}
+.listing-layout .specs.specs-horizontal>.summary-fact,.summary-extras>.supplementary-fact{text-align:center}
+.specs-horizontal .metric-value{justify-content:center}
 body .listing-layout .price-comparison .market-savings{background:#ffd166;color:#352a14}
 .property-savings-badge{display:inline-flex;align-self:flex-start;width:max-content;max-width:100%;margin:0 0 10px;padding:6px 10px;border-radius:999px;background:#ffd166;color:#352a14;font:650 12px/1.35 var(--ui-font,var(--sans));letter-spacing:-.01em}
 body .map-property-card>.property-savings-badge{grid-column:1/-1;justify-self:start;margin:0;color:#352a14}
@@ -30,6 +35,7 @@ body .map-property-facts .property-fact svg{width:14px;height:16px;flex:0 0 14px
  .specs-horizontal .fact-icon{width:14px;height:18px;flex-basis:14px}
 }
 @media(max-width:350px){.listing-layout .specs.specs-horizontal{padding-inline:8px;gap:5px}.specs-horizontal .metric-label{font-size:11px;letter-spacing:-.025em}}
+@media(max-width:350px){.listing-layout .specs-horizontal>.summary-fact:first-child .metric-value{gap:2px}.listing-layout .specs-horizontal>.summary-fact:first-child .metric-value strong{font-size:12px}.specs-horizontal>.summary-fact:first-child .fact-icon{width:12px;flex-basis:12px}}
 @media(max-width:350px){
  .home-map-dialog .map-property-card{grid-template-columns:78px minmax(0,1fr);gap:8px}
  .home-map-dialog .map-property-card img{width:78px}
